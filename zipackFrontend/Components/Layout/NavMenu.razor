@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zipack</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Racing+Sans+One:wght@400&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@400&display=swap" />
+    <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+<div class="main-container">
+    <!-- Die Navigationsleiste bleibt immer oben -->
+    <div class="rectangle">
+        <span class="zipack">zipack</span>
+        <a href="/" class="home nav-link">Home</a>
+        <a href="/Team" class="latest nav-link">Team</a>
+        <a href="/legal" class="legal nav-link">Legal</a>
+        <span class="download">Download</span>
+        <div class="line"></div>
+    </div>
+
+    <!-- Der restliche Inhalt deiner Seite -->
+    <div class="content">
+        <!-- Deine anderen Sektionen hier -->
+    </div>
+</div>
+
+<!-- Hier kommt der JavaScript-Code -->
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPath = window.location.pathname; // Aktueller Pfad der Seite
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            // Setze die aktive Klasse entsprechend des aktuellen Pfads
+            navLinks.forEach((link) => {
+                if (link.getAttribute("href") === currentPath) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

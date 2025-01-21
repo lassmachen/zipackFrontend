@@ -1,0 +1,15 @@
+﻿@inherits LayoutComponentBase
+
+<div class="main-layout">
+    <NavMenu />
+    <div class="body-content">
+        @Body
+    </div>
+</div>
+
+<script>
+    // Führe beim Laden der Seite einen Scrollbefehl aus, um immer nach oben zu scrollen
+    window.onload = function() {
+        window.scrollTo(0, 0);
+    };
+</script>

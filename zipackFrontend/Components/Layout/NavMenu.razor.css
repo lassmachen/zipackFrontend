@@ -1,0 +1,78 @@
+/* HTML und Body auf 100% setzen */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Hauptcontainer */
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navigationsleiste fixiert */
+.rectangle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; /* Breite auf 100% setzen */
+    height: 60px; /* Höhe der Navigationsleiste verringern */
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between; /* Links und rechts gleichmäßig verteilen */
+    align-items: center; /* Vertikal zentrieren */
+    padding: 0 20px; /* Abstand zu den Rändern */
+    z-index: 10; /* Stellt sicher, dass die Leiste über anderem Inhalt bleibt */
+}
+
+/* Zipack-Schrift */
+.zipack {
+    font-family: 'Racing Sans One', sans-serif;
+    font-size: 28px; /* Schriftgröße verringern */
+    font-weight: 400;
+    color: #000;
+}
+
+/* Navigation Links */
+.nav-link {
+    color: #000;
+    font-family: 'Sulphur Point', sans-serif;
+    font-size: 18px; /* Schriftgröße verringern */
+    text-decoration: none;
+    padding: 0 20px; /* Abstand zwischen den Links */
+    transition: all 0.3s ease; /* Sanfter Übergang für den Hover-Effekt */
+}
+
+/* Links zentriert und gleichmäßig verteilt */
+.nav-link:hover {
+    text-decoration: underline;
+    text-decoration-color: #6200ea;
+    text-decoration-thickness: 3px;
+}
+
+/* Download Button */
+.download {
+    background-color: #6200ea;
+    color: white;
+    font-family: 'Sulphur Point', sans-serif;
+    font-size: 18px; /* Schriftgröße verringern */
+    padding: 8px 16px;
+    border-radius: 6px;
+    z-index: 6;
+    cursor: pointer;
+}
+
+/* Linie unter der Leiste */
+.line {
+    position: absolute;
+    top: 59px; /* Position anpassen */
+    left: 0;
+    width: 100%;
+    height: 1px; /* Dünne Linie unter der Leiste */
+    background-color: #6200ea;
+}

@@ -1,0 +1,73 @@
+﻿@page "/Team"
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Staatliches:wght@400&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #2D283E; /* Lila Hintergrund */
+            min-height: 100vh; /* Sicherstellen, dass der Hintergrund die gesamte Seite abdeckt */
+            margin: 0;
+        }
+        .font-staatliches {
+            font-family: 'Staatliches', sans-serif;
+        }
+    </style>
+</head>
+<body class="relative">
+<!-- Black Background Overlay, auf 300vh verlängert -->
+<div class="absolute inset-0 bg-black h-[300vh]"></div>
+
+<!-- Content Container -->
+<div class="relative mx-auto max-w-screen-lg">
+    <div class="grid grid-cols-1 gap-10 mt-20">
+        <!-- First Card -->
+        <a href="/Einfachrobbe" class="relative block bg-[#313030] border border-[#4E3F77] rounded-lg w-full h-[400px] flex items-center hover:shadow-lg transition-shadow duration-300">
+            <div class="flex-shrink-0 w-48 h-48 bg-cover bg-center rounded-full ml-8" style="background-image: url('./assets/images/pfpEinfachrobbe.png')"></div>
+            <div class="ml-28">
+                <h1 class="font-staatliches text-5xl tracking-wide text-white mb-3">Einfachrobbe</h1>
+                <p class="text-2xl text-white leading-relaxed">
+                    - CEO<br />
+                    - Developer<br />
+                    - Administration<br />
+                    - Payroll
+                </p>
+            </div>
+        </a>
+
+        <!-- Second Card -->
+        <a href="/SupGraf" class="relative block bg-[#313030] border border-[#4E3F77] rounded-lg w-full h-[400px] flex items-center hover:shadow-lg transition-shadow duration-300">
+            <div class="flex-shrink-0 w-48 h-48 bg-cover bg-center rounded-full ml-8" style="background-image: url('./assets/images/pfpSupGraf.png')"></div>
+            <div class="ml-28">
+                <h2 class="font-staatliches text-5xl tracking-wide text-white mb-3">Supgraf</h2>
+                <p class="text-2xl text-white leading-relaxed">
+                    - Founder<br />
+                    - CEO<br />
+                    - Designer<br />
+                    - Manager
+                </p>
+            </div>
+        </a>
+
+        <!-- Third Card -->
+        <a href="/Kaya" class="relative block bg-[#313030] border border-[#4E3F77] rounded-lg w-full h-[400px] flex items-center hover:shadow-lg transition-shadow duration-300">
+            <div class="flex-shrink-0 w-48 h-48 bg-cover bg-center rounded-full ml-8" style="background-image: url('./assets/images/pfpKaya.png')"></div>
+            <div class="ml-28">
+                <h3 class="font-staatliches text-5xl tracking-wide text-white mb-3">Kaya</h3>
+                <p class="text-2xl text-white leading-relaxed">
+                    - FX Design<br />
+                    - Supporter
+                </p>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
