@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zipack</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Racing+Sans+One:wght@400&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@400&display=swap" />
+    <link rel="stylesheet" href="assets/fonts/font.css">
     <link rel="stylesheet" href="index.css" />
+    <link href="assets/download/animate.css-main/animate.min.css" rel="stylesheet">
+    <link href="assets/download/Hover-master/css/hover-min.css" rel="stylesheet">
 </head>
 <body>
 <div class="main-container">
@@ -14,11 +15,21 @@
     <div class="rectangle">
         <span class="zipack">zipack</span>
         <a href="/" class="home nav-link">Home</a>
+        <a href="/news" class="legal nav-link">News</a>
+        <a href="/releases" class="releases nav-link">Releases</a>
         <a href="/Team" class="latest nav-link">Team</a>
         <a href="/legal" class="legal nav-link">Legal</a>
-        <span class="download">Download</span>
+        <!-- Download Button -->
+        <div class="text-center mt-8 relative group">
+            <button class="download-button">
+                Download
+            </button>
+            <!-- Unsichtbarer Link -->
+            <a href="/download" class="absolute inset-0" aria-label="Download"></a>
+        </div>
         <div class="line"></div>
     </div>
+    
 
     <!-- Der restliche Inhalt deiner Seite -->
     <div class="content">
@@ -26,19 +37,18 @@
     </div>
 </div>
 
-<!-- Hier kommt der JavaScript-Code -->
 <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const currentPath = window.location.pathname; // Aktueller Pfad der Seite
-            const navLinks = document.querySelectorAll(".nav-link");
+    document.addEventListener("DOMContentLoaded", () => {
+        const currentPath = window.location.pathname; // Aktueller Pfad der Seite
+        const navLinks = document.querySelectorAll(".nav-link");
 
-            // Setze die aktive Klasse entsprechend des aktuellen Pfads
-            navLinks.forEach((link) => {
-                if (link.getAttribute("href") === currentPath) {
-                    link.classList.add("active");
-                }
-            });
+        // Setze die aktive Klasse entsprechend des aktuellen Pfads
+        navLinks.forEach((link) => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+            }
         });
-    </script>
+    });
+</script>
 </body>
 </html>

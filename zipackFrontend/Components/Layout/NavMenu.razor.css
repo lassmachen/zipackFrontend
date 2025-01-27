@@ -15,19 +15,22 @@ html, body {
     align-items: center;
 }
 
-/* Navigationsleiste fixiert */
+/* Navigationsleiste fixiert mit Transparenz */
 .rectangle {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%; /* Breite auf 100% setzen */
-    height: 60px; /* Höhe der Navigationsleiste verringern */
-    background: #ffffff;
+    top: 12px; /* Navigationsleiste bleibt an ihrer ursprünglichen Position */
+    left: 50px; /* Abstand von der linken Seite */
+    right: 50px; /* Abstand von der rechten Seite */
+    width: calc(100% - 100px); /* Gesamtbreite minus Links- und Rechtsabstand */
+    height: 60px; /* Höhe der Navigationsleiste */
+    background: rgba(45, 40, 62, 0.8); /* Transparente Farbe #2D283E */
     display: flex;
     justify-content: space-between; /* Links und rechts gleichmäßig verteilen */
     align-items: center; /* Vertikal zentrieren */
-    padding: 0 20px; /* Abstand zu den Rändern */
+    padding: 0 20px; /* Abstand zu den Rändern innerhalb der Leiste */
+    border-radius: 15px; /* Abgerundete Ecken */
     z-index: 10; /* Stellt sicher, dass die Leiste über anderem Inhalt bleibt */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
 }
 
 /* Zipack-Schrift */
@@ -35,44 +38,72 @@ html, body {
     font-family: 'Racing Sans One', sans-serif;
     font-size: 28px; /* Schriftgröße verringern */
     font-weight: 400;
-    color: #000;
+    color: #fff; /* Weiße Schriftfarbe für den Zipack Text */
 }
 
 /* Navigation Links */
 .nav-link {
-    color: #000;
+    color: #fff; /* Weiße Schriftfarbe für die Links */
     font-family: 'Sulphur Point', sans-serif;
     font-size: 18px; /* Schriftgröße verringern */
     text-decoration: none;
     padding: 0 20px; /* Abstand zwischen den Links */
     transition: all 0.3s ease; /* Sanfter Übergang für den Hover-Effekt */
+    position: relative; /* Ermöglicht es, den z-index zu verwenden */
 }
 
-/* Links zentriert und gleichmäßig verteilt */
+/* Hover-Effekt für die Links */
 .nav-link:hover {
-    text-decoration: underline;
-    text-decoration-color: #6200ea;
-    text-decoration-thickness: 3px;
+    transform: scale(1.2); /* Vergrößert die Schrift um 20% */
+    font-weight: bold; /* Optional: Macht den Text fett, wenn er größer wird */
+    z-index: 5; /* Stellt sicher, dass der vergrößerte Text oben bleibt */
 }
 
 /* Download Button */
-.download {
-    background-color: #6200ea;
+.download-button {
+    background-color: #802BB1; /* Farbe des Buttons */
     color: white;
     font-family: 'Sulphur Point', sans-serif;
-    font-size: 18px; /* Schriftgröße verringern */
-    padding: 8px 16px;
-    border-radius: 6px;
-    z-index: 6;
+    font-size: 20px; /* Schriftgröße */
+    padding: 10px 20px;
+    border-radius: 10px;
     cursor: pointer;
+    position: relative; /* Ermöglicht das Verschieben des Buttons */
+    top: -15px; /* Button um 20px nach oben verschieben */
+    transition: all 0.3s ease; /* Sanfter Übergang für Hover-Effekt */
 }
 
-/* Linie unter der Leiste */
-.line {
-    position: absolute;
-    top: 59px; /* Position anpassen */
-    left: 0;
-    width: 100%;
-    height: 1px; /* Dünne Linie unter der Leiste */
-    background-color: #6200ea;
+/* Hover-Effekt für den Download-Button */
+.download-button:hover {
+    background-color: #9c3cbb; /* Ändert die Farbe des Buttons beim Hover */
+    transform: scale(1.1); /* Button wird vergrößert */
 }
+
+/* Unsichtbarer Link für den Download */
+.text-center {
+    text-align: center;
+}
+
+.mt-8 {
+    margin-top: 2rem;
+}
+
+.relative {
+    position: relative;
+}
+
+.group:hover .download-button {
+    transform: scale(1.1);
+    background-color: #9c3cbb;
+}
+
+.group a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+

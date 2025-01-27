@@ -1,73 +1,106 @@
-﻿@page "/Team"
+﻿@page "/team"
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team Page</title>
+    <title>Our Team</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Staatliches:wght@400&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #2D283E; /* Lila Hintergrund */
-            min-height: 100vh; /* Sicherstellen, dass der Hintergrund die gesamte Seite abdeckt */
-            margin: 0;
-        }
+        /* Custom Fonts */
         .font-staatliches {
             font-family: 'Staatliches', sans-serif;
         }
+        .font-sulphur {
+            font-family: 'Sulphur Point', sans-serif;
+        }
     </style>
 </head>
-<body class="relative">
-<!-- Black Background Overlay, auf 300vh verlängert -->
-<div class="absolute inset-0 bg-black h-[300vh]"></div>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center pt-16">
 
-<!-- Content Container -->
-<div class="relative mx-auto max-w-screen-lg">
-    <div class="grid grid-cols-1 gap-10 mt-20">
-        <!-- First Card -->
-        <a href="/Einfachrobbe" class="relative block bg-[#313030] border border-[#4E3F77] rounded-lg w-full h-[400px] flex items-center hover:shadow-lg transition-shadow duration-300">
-            <div class="flex-shrink-0 w-48 h-48 bg-cover bg-center rounded-full ml-8" style="background-image: url('./assets/images/pfpEinfachrobbe.png')"></div>
-            <div class="ml-28">
-                <h1 class="font-staatliches text-5xl tracking-wide text-white mb-3">Einfachrobbe</h1>
-                <p class="text-2xl text-white leading-relaxed">
-                    - CEO<br />
-                    - Developer<br />
-                    - Administration<br />
-                    - Payroll
-                </p>
-            </div>
-        </a>
+<!-- Outer Container for padding top -->
+<div class="container mx-auto px-4">
 
-        <!-- Second Card -->
-        <a href="/SupGraf" class="relative block bg-[#313030] border border-[#4E3F77] rounded-lg w-full h-[400px] flex items-center hover:shadow-lg transition-shadow duration-300">
-            <div class="flex-shrink-0 w-48 h-48 bg-cover bg-center rounded-full ml-8" style="background-image: url('./assets/images/pfpSupGraf.png')"></div>
-            <div class="ml-28">
-                <h2 class="font-staatliches text-5xl tracking-wide text-white mb-3">Supgraf</h2>
-                <p class="text-2xl text-white leading-relaxed">
-                    - Founder<br />
-                    - CEO<br />
-                    - Designer<br />
-                    - Manager
-                </p>
-            </div>
-        </a>
-
-        <!-- Third Card -->
-        <a href="/Kaya" class="relative block bg-[#313030] border border-[#4E3F77] rounded-lg w-full h-[400px] flex items-center hover:shadow-lg transition-shadow duration-300">
-            <div class="flex-shrink-0 w-48 h-48 bg-cover bg-center rounded-full ml-8" style="background-image: url('./assets/images/pfpKaya.png')"></div>
-            <div class="ml-28">
-                <h3 class="font-staatliches text-5xl tracking-wide text-white mb-3">Kaya</h3>
-                <p class="text-2xl text-white leading-relaxed">
-                    - FX Design<br />
-                    - Supporter
-                </p>
-            </div>
-        </a>
+    <!-- Inner Container with additional padding -->
+    <div class="pt-16">
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl lg:text-5xl font-staatliches mb-4">
+                Meet Our Team
+            </h1>
+            <p class="text-lg lg:text-xl font-sulphur text-gray-300">
+                Learn more about the passionate people behind the project.
+            </p>
+        </header>
     </div>
+    
+    <!-- Team Members Section -->
+    <h1 class="animate__animated animate__slideInUp">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Team Member 1 -->
+            <a href="#" class="button hvr-float">
+                <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
+                    <div class="flex flex-col items-center space-y-4">
+                        <img
+                            src="/assets/images/pfpeinfachrobbe.png"
+                            alt="EinfachRobbe"
+                            class="w-28 h-28 rounded-full border-4 border-white object-cover"
+                        />
+                        <div>
+                            <h2 class="text-lg font-bold text-center">EinfachRobbe</h2>
+                            <p class="text-sm text-gray-400 text-center">CEO <br />Developer <br />Administration <br />Payrole</p>
+                        </div>
+                        <p class="mt-4 text-gray-300 text-center">
+                            Can't live without his goofy ahh type music. General dogsbody of zipack.
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Team Member 2 -->
+            <a href="#" class="button hvr-float">
+                <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
+                    <div class="flex flex-col items-center space-y-4">
+                        <img
+                            src="/assets/images/pfpsupgraf.png"
+                            alt="SupGraf"
+                            class="w-28 h-28 rounded-full border-4 border-white object-cover"
+                        />
+                        <div>
+                            <h2 class="text-lg font-bold text-center">SupGraf</h2>
+                            <p class="text-sm text-gray-400 text-center">Founder <br />CEO <br />Designer <br />Manager</p>
+                        </div>
+                        <p class="mt-4 text-gray-300 text-center">
+                            He always has an idea—whether it's for a design, a project, or a new way to accidentally become rich.
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Team Member 3 -->
+            <a href="#" class="button hvr-float">
+            <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
+                <div class="flex flex-col items-center space-y-4">
+                    <img
+                        src="/assets/images/pfpKaya.png"
+                        alt="Kaya"
+                        class="w-28 h-28 rounded-full border-4 border-white object-cover"
+                    />
+                    <div>
+                        <h2 class="text-lg font-bold text-center">Kaya</h2>
+                        <p class="text-sm text-gray-400 text-center">FX-Designer <br />Supporter <br />Sound Designer <br />Meme Generator</p>
+                    </div>
+                    <p class="mt-4 text-gray-300 text-center">
+                        Ever heard a weird sound? He makes it with his mouth.
+                    </p>
+                </div>
+            </div>
+            </a>
+        </section>
+    </h1>
 </div>
+
+
 </body>
 </html>

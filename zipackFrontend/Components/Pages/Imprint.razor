@@ -1,20 +1,21 @@
 ﻿@page "/Imprint"
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Imprint</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Staatliches:wght@400&display=swap"/>
+    <title>Imprint | Zipack</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-black">
+<body class="bg-black text-white">
+
 <div class="relative w-full min-h-screen bg-cover bg-center" style="background-image: url('./assets/images/zipacklogo_.png');">
     <!-- Black Rectangle (Background) -->
     <div class="absolute w-full h-full bg-black z-0"></div>
 
-    <!-- White Rectangle (Centered, moved one layer back) -->
+    <!-- White Rectangle (Centered) -->
     <div class="absolute w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] h-auto top-[10%] left-[50%] transform -translate-x-[50%] bg-white rounded-lg z-1 p-6">
         
         <!-- Imprint Title -->
@@ -32,7 +33,7 @@
             70839 Gerlingen<br />
             <br />
             <strong>Contact:</strong><br />
-            Email: webmaster@zipack.net<br />
+            Email: <a href="mailto:webmaster@zipack.net" class="text-purple-600 hover:text-purple-500 transition-colors">webmaster@zipack.net</a><br />
             <br />
             <strong>Disclaimer:</strong><br />
             The content on this website has been created with the utmost care. However, no liability is accepted for the accuracy, completeness, or timeliness of the content.<br />
@@ -44,7 +45,7 @@
             No cookies or tracking tools are used to analyze your behavior on this website. Your data is not shared with third parties.<br />
             <br />
             <strong>Copyright:</strong><br />
-            All content on this website, including texts, images, and graphics, is protected by copyright. Unless otherwise stated, the copyright is held by [Your Name]. Use of the content is only permitted with the express permission of the copyright holder.<br />
+            All content on this website, including texts, images, and graphics, is protected by copyright. Unless otherwise stated, the copyright is held by Timo Graf. Use of the content is only permitted with the express permission of the copyright holder.<br />
             <br />
             <strong>Note on External Links:</strong><br />
             This website contains links to external websites. We have no influence on the content of these linked sites and accept no liability for the content of external links. The responsibility for the content of the linked sites lies solely with the respective operators.<br />
@@ -54,5 +55,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

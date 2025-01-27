@@ -2,8 +2,13 @@
 module.exports = {
   content: ["./**/*.{razor,html,cshtml}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sulphur: ['"Sulphur Point"', 'sans-serif'],
+        racing: ['"Racing Sans One"', 'sans-serif'],
+        staatliches: ['"Staatliches"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
-
