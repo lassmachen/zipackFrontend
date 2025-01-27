@@ -2,7 +2,7 @@
 <html lang="en">
 <body>
 <div class="main-container">
-    <!-- Die Navigationsleiste bleibt immer oben -->
+    <!-- Navigation -->
     <div class="rectangle">
         <a href="/" class="zipack">zipack</a>
         
@@ -27,25 +27,23 @@
             <button class="download-button">
                 Download
             </button>
-            <!-- Unsichtbarer Link -->
+            
             <a href="/download" class="absolute inset-0" aria-label="Download"></a>
         </div>
         <div class="line"></div>
     </div>
     
-
-    <!-- Der restliche Inhalt deiner Seite -->
+    
     <div class="content">
-        <!-- Deine anderen Sektionen hier -->
+       
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const currentPath = window.location.pathname; // Aktueller Pfad der Seite
+        const currentPath = window.location.pathname; 
         const navLinks = document.querySelectorAll(".nav-link");
-
-        // Setze die aktive Klasse entsprechend des aktuellen Pfads
+        
         navLinks.forEach((link) => {
             if (link.getAttribute("href") === currentPath) {
                 link.classList.add("active");

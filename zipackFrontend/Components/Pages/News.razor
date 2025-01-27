@@ -3,117 +3,126 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<style>
-    .scrollable {
-        max-height: 200px;
-        overflow-y: auto;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News | zipack.net</title>
+    <style>
+       
+        .scrollable {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .scrollable {
+            scrollbar-width: thin;
+            scrollbar-color: #7e00b0 transparent;
+        }
 
-    /* Firefox scrollbar styles */
-    .scrollable {
-        scrollbar-width: thin; /* Dünner Scrollbalken */
-        scrollbar-color: #7e00b0 transparent; /* Farbe für den Balken und Hintergrund (passend zu den Violett-Tönen der Seite) */
-    }
+        .scrollable::-webkit-scrollbar {
+            width: 6px;
+        }
 
-    /* Custom scrollbar styles for WebKit browsers (Chrome, Safari, etc.) */
-    .scrollable::-webkit-scrollbar {
-        width: 6px; /* Breiterer Balken für bessere Sichtbarkeit */
-    }
+        .scrollable::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-    .scrollable::-webkit-scrollbar-track {
-        background: transparent; /* Hintergrund der Scrollleiste */
-    }
+        .scrollable::-webkit-scrollbar-thumb {
+            background: #7e00b0;
+            border-radius: 8px;
+        }
 
-    .scrollable::-webkit-scrollbar-thumb {
-        background: #7e00b0; /* Farbe des Scroll-Daumen (passend zu den violetten Tönen) */
-        border-radius: 8px; /* Abgerundete Ecken */
-    }
+        .scrollable::-webkit-scrollbar-thumb:hover {
+            background: #9c3cbb;
+        }
 
-    .scrollable::-webkit-scrollbar-thumb:hover {
-        background: #9c3cbb; /* Lichtere Farbe bei Hover */
-    }
-
-    .scrollable::-webkit-scrollbar-thumb:active {
-        background: #6a00a1; /* Etwas dunklerer Farbton bei aktivem Scrollen */
-    }
-</style>
-
+        .scrollable::-webkit-scrollbar-thumb:active {
+            background: #6a00a1;
+        }
+    </style>
+</head>
 
 <body class="min-h-screen bg-gradient-to-b from-black to-purple-700 text-white">
 
-<PageTitle>News | zipack.net</PageTitle>
+    <!-- Hero Section -->
+    <section id="vanta-bg" class="py-16 px-4 pt-32">
+        <h1 class="animate__animated bounce">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-white mb-4">Breaking News of the Day</h2>
+                <p class="text-gray-300 text-lg mb-8">Stay updated with the latest headlines from around the world.</p>
+            </div>
+        </h1>
+    </section>
 
-<!-- Hero Section -->
-<section id="vanta-bg" class="py-16 px-4 pt-32">
-    <h1 class="animate__animated bounce">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-4xl font-bold text-white mb-4">Breaking News of the Day</h2>
-            <p class="text-gray-300 text-lg mb-8">Stay updated with the latest headlines from around the world.</p>
+    <!-- News Section -->
+    <main class="py-12 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Article Card -->
+            <a href="#" class="button hvr-grow">
+                <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
+                    <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                        <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col justify-start"> 
+                           
+                            <h3 class="text-2xl font-bold text-white mb-2">Global Mars Mission Achieves Major Breakthrough</h3>
+                            
+                            <p class="text-gray-300 scrollable">
+                                A collaborative effort by international space agencies has reached a significant milestone in Mars research. The latest rover, equipped with advanced technology, has discovered organic compounds on the Red Planet for the first time, greatly increasing the possibility of life on Mars. Scientists around the world are excited about the initial findings and are already planning the next steps for exploration.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </a>
+
+            <!-- Next Article Card -->
+            <a href="#" class="button hvr-grow">
+                <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
+                    <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                        <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col justify-start"> 
+                            
+                            <h3 class="text-2xl font-bold text-white mb-2">New World Record</h3>
+                           
+                            <p class="text-gray-300 scrollable">
+                                A 29-year-old Kenyan runner has set a new world record in the marathon by completing the 42.195 kilometers in an incredible 1 hour, 59 minutes, and 40 seconds. This marks the first time a marathon runner has finished under two hours, and many experts consider this a revolutionary moment for the sport. Fans and sports journalists alike agree: the marathon will never be the same.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </a>
+
+            <a href="#" class="button hvr-grow">
+                <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
+                    <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                        <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col justify-start"> 
+                           
+                            <h3 class="text-2xl font-bold text-white mb-2">Artificial Intelligence</h3>
+                           
+                            <p class="text-gray-300 scrollable">
+                                Researchers have made a breakthrough in medicine by developing an artificial intelligence system capable of diagnosing diseases like cancer and Alzheimer's at an early stage.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </a>
         </div>
-    </h1>
-</section>
+    </main>
 
-<!-- News Section -->
-<main class="py-12 px-4">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Article Card -->
-        <a href="#" class="button hvr-grow">
-            <h1 class="animate__animated animate__slideInUp text-white mb-4">
-                <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden">
-                    <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">Global Mars Mission Achieves Major Breakthrough</h3>
-                        <p class="text-gray-300 scrollable">
-                            A collaborative effort by international space agencies has reached a significant milestone in Mars research. The latest rover, equipped with advanced technology, has discovered organic compounds on the Red Planet for the first time, greatly increasing the possibility of life on Mars. Scientists around the world are excited about the initial findings and are already planning the next steps for exploration.
-                        </p>
-                    </div>
-                </article>
-            </h1>
-        </a>
-        <!-- Repeat for other articles -->
-        <a href="#" class="button hvr-grow">
-            <h1 class="animate__animated animate__slideInUp text-white mb-4">
-                <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden">
-                    <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">New World Record </h3>
-                        <p class="text-gray-300 scrollable">
-                        A 29-year-old Kenyan runner has set a new world record in the marathon by completing the 42.195 kilometers in an incredible 1 hour, 59 minutes, and 40 seconds. This marks the first time a marathon runner has finished under two hours, and many experts consider this a revolutionary moment for the sport. Fans and sports journalists alike agree: the marathon will never be the same.
-                        </p>
-                    </div>
-                </article>
-            </h1>
-        </a>
-
-        <a href="#" class="button hvr-grow">
-            <h1 class="animate__animated animate__slideInUp text-white mb-4">
-                <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden">
-                    <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">Artificial Intelligence</h3>
-                        <p class="text-gray-300 scrollable">
-                            Researchers have made a breakthrough in medicine by developing an artificial intelligence system capable of diagnosing diseases like cancer and Alzheimer's at an early stage.
-                        </p>
-                    </div>
-                </article>
-            </h1>
-        </a>
-    </div>
-</main>
-
-<!-- Footer Section -->
-<footer class="bg-black py-8 text-center text-gray-400">
-    <p>&copy; 2025 Zipack. All rights reserved.</p>
-    <div class="mt-4 flex justify-center space-x-6">
-        <a href="/download" class="hover:text-[#802BB1]">Download</a>
-        <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
-        <a href="/support" class="hover:text-[#802BB1]">Support</a>
-        <a href="/team" class="hover:text-[#802BB1]">Team</a>
-        <a href="https://ko-fi.com/einfachrobbe" target="_blank" class="hover:text-[#802BB1]">Donate</a>
-        <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
-    </div>
-</footer>
+    <!-- Footer Section -->
+    <footer class="bg-black py-8 text-center text-gray-400">
+        <p>&copy; 2025 Zipack. All rights reserved.</p>
+        <div class="mt-4 flex justify-center space-x-6">
+            <a href="/download" class="hover:text-[#802BB1]">Download</a>
+            <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
+            <a href="/support" class="hover:text-[#802BB1]">Support</a>
+            <a href="/team" class="hover:text-[#802BB1]">Team</a>
+            <a href="https://ko-fi.com/einfachrobbe" target="_blank" class="hover:text-[#802BB1]">Donate</a>
+            <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
+        </div>
+    </footer>
 
 </body>
-</html>
 
+</html>
