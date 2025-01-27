@@ -42,21 +42,31 @@ html, body {
 }
 
 /* Navigation Links */
-.nav-link {
-    color: #fff; /* Weiße Schriftfarbe für die Links */
-    font-family: 'Sulphur Point', sans-serif;
-    font-size: 18px; /* Schriftgröße verringern */
+.button {
+    display: inline-block;
     text-decoration: none;
-    padding: 0 20px; /* Abstand zwischen den Links */
-    transition: all 0.3s ease; /* Sanfter Übergang für den Hover-Effekt */
-    position: relative; /* Ermöglicht es, den z-index zu verwenden */
+    padding: 10px 20px;
+    color: white;
+    font-family: 'Sulphur Point', sans-serif;
+    font-size: 18px;
+    position: relative;
+    border-radius: 5px;
+    transition: transform 0.3s ease; /* Weicher Übergang für den Hover-Effekt */
 }
 
 /* Hover-Effekt für die Links */
-.nav-link:hover {
-    transform: scale(1.2); /* Vergrößert die Schrift um 20% */
-    font-weight: bold; /* Optional: Macht den Text fett, wenn er größer wird */
-    z-index: 5; /* Stellt sicher, dass der vergrößerte Text oben bleibt */
+.hvr-grow {
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+}
+
+.hvr-grow:hover {
+    transform: scale(1.1); /* Vergrößert den Link um 10% */
+}
+
+/* Hover-Effekt für die Links */
+.button:hover {
+    color: #F5F5F5; /* Optional: Farbe beim Hover */
 }
 
 /* Download Button */
@@ -105,5 +115,3 @@ html, body {
     bottom: 0;
     z-index: 1;
 }
-
-
