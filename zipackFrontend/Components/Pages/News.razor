@@ -2,38 +2,35 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Scrollbar Styles -->
-    <style>
-        .scrollable {
-            max-height: 200px;
-            overflow-y: auto;
-        }
 
-        /* Custom scrollbar styles */
-        .scrollable::-webkit-scrollbar {
-            width: 4px; /* Thin scrollbar */
-        }
+<style>
+    .scrollable {
+        max-height: 200px;
+        overflow-y: auto;
+    }
 
-        .scrollable::-webkit-scrollbar-track {
-            background: transparent; /* Optional: Transparent background */
-        }
+    /* Custom scrollbar styles */
+    .scrollable::-webkit-scrollbar {
+        width: 4px; /* Thin scrollbar */
+    }
 
-        .scrollable::-webkit-scrollbar-thumb {
-            background: #802BB1; /* Scrollbar thumb color */
-            border-radius: 8px; /* Rounded corners for the thumb */
-        }
+    .scrollable::-webkit-scrollbar-track {
+        background: transparent; /* Optional: Transparent background */
+    }
 
-        .scrollable::-webkit-scrollbar-thumb:hover {
-            background: #9c3cbb; /* Slightly lighter color on hover */
-        }
-    </style>
-</head>
+    .scrollable::-webkit-scrollbar-thumb {
+        background: #802BB1; /* Scrollbar thumb color */
+        border-radius: 8px; /* Rounded corners for the thumb */
+    }
+
+    .scrollable::-webkit-scrollbar-thumb:hover {
+        background: #9c3cbb; /* Slightly lighter color on hover */
+    }
+</style>
+
 <body class="min-h-screen bg-gradient-to-b from-black to-purple-700 text-white">
+
+<PageTitle>News | zipack.net</PageTitle>
 
 <!-- Hero Section -->
 <section id="vanta-bg" class="py-16 px-4">
@@ -50,45 +47,57 @@
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Article Card -->
         <a href="#" class="button hvr-grow">
-        <h1 class="animate__animated animate__slideInUp text-white mb-4">
-            <article class="bg-gradient-to-b from-purple-950 to-black rounded-2xl shadow-lg overflow-hidden">
-                <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-2xl font-bold text-white mb-2">Headline 1</h3>
-                    <p class="text-gray-300 scrollable">
-                        This is a summary of the first news article. It contains a detailed description and provides all the latest updates regarding the headline. Stay tuned to get more information about this topic as it unfolds further. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                </div>
-            </article>
-        </h1>
+            <h1 class="animate__animated animate__slideInUp text-white mb-4">
+                <article class="bg-gradient-to-b from-purple-950 to-black rounded-2xl shadow-lg overflow-hidden">
+                    <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Headline 1</h3>
+                        <p class="text-gray-300 scrollable">
+                            This is a summary of the first news article. It contains a detailed description and provides
+                            all the latest updates regarding the headline. Stay tuned to get more information about this
+                            topic as it unfolds further. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                </article>
+            </h1>
         </a>
         <!-- Repeat for other articles -->
         <a href="#" class="button hvr-grow">
-        <h1 class="animate__animated animate__slideInUp text-white mb-4">
-            <article class="bg-gradient-to-b from-purple-950 to-black rounded-2xl shadow-lg overflow-hidden">
-                <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-2xl font-bold text-white mb-2">Headline 2</h3>
-                    <p class="text-gray-300 scrollable">
-                        This is a summary of the second news article. Detailed updates and insights about this topic are shared here. Discover the background, implications, and responses associated with this headline. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                </div>
-            </article>
-        </h1>
+            <h1 class="animate__animated animate__slideInUp text-white mb-4">
+                <article class="bg-gradient-to-b from-purple-950 to-black rounded-2xl shadow-lg overflow-hidden">
+                    <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Headline 2</h3>
+                        <p class="text-gray-300 scrollable">
+                            This is a summary of the second news article. Detailed updates and insights about this topic
+                            are shared here. Discover the background, implications, and responses associated with this
+                            headline. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                </article>
+            </h1>
         </a>
-        
+
         <a href="#" class="button hvr-grow">
-        <h1 class="animate__animated animate__slideInUp text-white mb-4">
-            <article class="bg-gradient-to-b from-purple-950 to-black rounded-2xl shadow-lg overflow-hidden">
-                <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-2xl font-bold text-white mb-2">Headline 3</h3>
-                    <p class="text-gray-300 scrollable">
-                        This is a summary of the third news article. Gain insights and stay informed about the most important aspects of this headline. Explore the details and follow the developments as they happen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                </div>
-            </article>
-        </h1>
+            <h1 class="animate__animated animate__slideInUp text-white mb-4">
+                <article class="bg-gradient-to-b from-purple-950 to-black rounded-2xl shadow-lg overflow-hidden">
+                    <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Headline 3</h3>
+                        <p class="text-gray-300 scrollable">
+                            This is a summary of the third news article. Gain insights and stay informed about the most
+                            important aspects of this headline. Explore the details and follow the developments as they
+                            happen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                </article>
+            </h1>
         </a>
     </div>
 </main>
