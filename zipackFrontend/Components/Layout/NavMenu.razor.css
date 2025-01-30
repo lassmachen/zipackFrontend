@@ -115,3 +115,22 @@ html, body {
     bottom: 0;
     z-index: 1;
 }
+
+/* Flaggen-Styling */
+.language-switcher {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.language-switcher img {
+    width: 30px; /* Größe der Flagge */
+    height: auto;
+    margin-left: 20px; /* Abstand zur vorherigen Navigation */
+    transition: transform 0.3s ease;
+}
+
+.language-switcher img:hover {
+    transform: scale(1.1);
+}
+

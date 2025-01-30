@@ -1,0 +1,67 @@
+﻿@page "/donate"
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate & Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: radial-gradient(circle, rgba(50,0,100,1) 0%, rgba(10,10,20,1) 100%);
+            font-family: 'Arial', sans-serif;
+        }
+        .glow {
+            box-shadow: 0 0 20px rgba(200, 0, 255, 0.8);
+        }
+        .neon-text {
+            text-shadow: 0px 0px 12px rgba(200, 0, 255, 0.8);
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-start fade-in">
+    <div class="container mx-auto px-4 text-center mt-0">
+        <h1 class="text-5xl font-bold neon-text mb-3">HELP BY DONATE</h1>
+        <p class="text-lg text-gray-300 mb-6">We need Donations to keep our program online, offer it for download, and continuously develop it further.</p>
+        <div class="flex justify-center space-x-4">
+            <button class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">💳 Credit Card</button>
+            <button class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">💵PayPal</button>
+            <button class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">₿ Crypto</button>
+        </div>
+    </div>
+    <section class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6 px-6">
+        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+            <h3 class="text-xl font-bold mb-2">🌍 Help us</h3>
+            <p>We need donations to have our server constantly on.</p>
+        </div>
+        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+            <h3 class="text-xl font-bold mb-2">🚀 Support Innovation</h3>
+            <p>Help us innovate new designs, programs or new functions.</p>
+        </div>
+        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+            <h3 class="text-xl font-bold mb-2">💡 Make a Difference</h3>
+            <p>Every donation makes a different in zipack.</p>
+        </div>
+    </section>
+    <section class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+            <h3 class="text-xl font-bold mb-2">🔍 Transparency & Trust</h3>
+            <p>We ensure every dollar is used effectively, with full transparency and accountability.</p>
+        </div>
+        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+            <h3 class="text-xl font-bold mb-2">🌎 Join a community</h3>
+            <p>Be part of a great community and have a good time.</p>
+        </div>
+    </section>
+    <footer class="mt-4 text-gray-400 text-md text-center">
+        <p class="mb-3">Your donations helps create a future where innovation and compassion drive progress.</p>
+        <p>&copy; 2025 zipack. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

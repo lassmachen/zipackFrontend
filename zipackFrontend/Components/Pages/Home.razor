@@ -3,23 +3,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="Zip file opener, file manager, extract zip, open files, all-in-one file solution, file compression, file extractor">
     <meta name="description" content="Zip files, extract archives, and manage all your documents with ease. Zipack is your all-in-one file solution for opening, compressing, and organizing files.">
-    <meta property="og:title" content="Zipack | All-in-One File Solution" />
-    <meta property="og:description" content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place." />
-    <meta property="og:image" content="https://www.zipack.net/assets/images/preview.jpg" />
-    <meta property="og:url" content="https://www.zipack.net" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Zipack | All-in-One File Solution" />
-    <meta name="twitter:description" content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place." />
-    <meta name="twitter:image" content="https://www.zipack.net/assets/images/preview.jpg" />
+    <meta property="og:title" content="Zipack | All-in-One File Solution"/>
+    <meta property="og:description" content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place."/>
+    <meta property="og:image" content="https://www.zipack.net/assets/images/preview.png"/>
+    <meta property="og:url" content="https://www.zipack.net"/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Zipack | All-in-One File Solution"/>
+    <meta name="twitter:description" content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place."/>
+    <meta name="twitter:image" content="https://www.zipack.net/assets/images/preview.jpg"/>
     <meta name="language" content="en">
     <PageTitle>zipack.net | An all-in-one file solution</PageTitle>
-    
+
 </head>
 
 <body class="font-sans bg-black">
@@ -34,12 +35,14 @@
     </div>
 
     <!-- Main Section -->
-    <div class="text-center py-12">
+    <div class="text-center py-12" id="textContainer">
         <h1 class="animate__animated animate__zoomIn">
-            <div class="bg-white mx-auto px-6 py-4 max-w-xl rounded-lg">
-                <h1 class="text-[36px] font-staatliches tracking-[3px]">ALL in one</h1>
-                <h2 class="text-[36px] font-staatliches tracking-[3px]">File Manager</h2>
-            </div>
+            <a class="button hvr-grow">
+                <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
+                    <h1 class="text-[36px] font-staatliches tracking-[3px]">ALL in one</h1>
+                    <h2 class="text-[36px] font-staatliches tracking-[3px]">File Manager</h2>
+                </div>
+            </a>
         </h1>
     </div>
 
@@ -124,4 +127,51 @@
 </div>
 
 </body>
+
+<script>
+    let isExpanded = false; // Zustand des Containers
+
+    function toggleContainer() {
+        const textContainer = document.getElementById("textContainer");
+
+        if (!isExpanded) {
+            textContainer.innerHTML = `
+                <div class="bg-white mx-auto px-6 py-4 max-w-xl rounded-lg animate__animated animate__fadeIn">
+                    <h1 class="text-[28px] font-staatliches tracking-[3px]">Zipack is more than just an archiving program – it is the future of file management.</h1>
+                    <p class="text-[16px] mt-4">
+                        With Zipack, you only need one software to handle almost any file format. No more chaos from multiple applications for your files: Zipack combines nearly everything you need into a single, modern application. Whether you are a professional or a beginner, Zipack is easy to use and the number one choice for file management.
+                    </p>
+                    <p class="text-[16px] mt-4">
+                        The modular core structure offers seamless integration of third-party add-ons developed and uploaded by professionals. Our marketplace ensures you find the perfect solution for your file processing needs.
+                    </p>
+                    <p class="text-[16px] mt-4">
+                        Zipack is developed by a passionate team dedicated to continuous improvement. The project is completely open-source and thrives on community support. Donations are essential to cover server costs and further development, enabling Zipack to fulfill its vision of universal file management.
+                    </p>
+                 
+                    <h2 class="text-[20px] font-staatliches tracking-[3px] mt-6">Zipack – Simple. Flexible. Expandable.</h2>
+                </div>
+            `;
+        } else {
+            // Wenn der Container bereits geöffnet ist, setzen wir ihn zurück
+            textContainer.innerHTML = `
+                <h1 class="animate__animated animate__zoomIn">
+                    <a class="button hvr-grow">
+                        <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
+                            <h1 class="text-[36px] font-staatliches tracking-[3px]">ALL in one</h1>
+                            <h2 class="text-[36px] font-staatliches tracking-[3px]">File Manager</h2>
+                        </div>
+                    </a>
+                </h1>
+            `;
+        }
+
+        isExpanded = !isExpanded; // Zustand umschalten
+    }
+
+    // Fügen Sie den Event-Listener beim Laden der Seite hinzu
+    window.onload = function() {
+        document.getElementById("textContainer").addEventListener("click", toggleContainer);
+    };
+</script>
+
 </html>

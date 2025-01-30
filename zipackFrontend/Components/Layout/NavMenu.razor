@@ -22,6 +22,11 @@
             Legal
         </a>
 
+        <!-- Sprachumschaltung -->
+        <div class="language-switcher">
+            <img id="language-flag" src="./assets/images/GreatBritainFlag.png" alt="GB Flagge" onclick="switchLanguage()" />
+        </div>
+
         <!-- Download Button -->
         <div class="text-center mt-8 relative group">
             <button class="download-button">
@@ -33,23 +38,32 @@
         <div class="line"></div>
     </div>
     
-    
     <div class="content">
        
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const currentPath = window.location.pathname; 
-        const navLinks = document.querySelectorAll(".nav-link");
+    // JavaScript für Sprachumschaltung
+    let isGerman = false; // Initiale Sprache ist Englisch (false bedeutet Englisch)
+
+    function switchLanguage() {
+        const flagImage = document.getElementById('language-flag');
         
-        navLinks.forEach((link) => {
-            if (link.getAttribute("href") === currentPath) {
-                link.classList.add("active");
-            }
-        });
-    });
+        if (isGerman) {
+            // Ändere die Flagge auf Großbritannien und setze die Sprache auf Englisch
+            flagImage.src = './assets/images/GreatBritainFlag.png';
+            isGerman = false;
+            // Hier könnte man die Seite auf Englisch umschalten
+            console.log('Sprache auf Englisch umgestellt');
+        } else {
+            // Ändere die Flagge zurück zur Deutschland-Flagge und setze die Sprache auf Deutsch
+            flagImage.src = './assets/images/GermanFlag.png';
+            isGerman = true;
+            // Hier könnte man die Seite auf Deutsch umschalten
+            console.log('Sprache auf Deutsch umgestellt');
+        }
+    }
 </script>
 </body>
 </html>
