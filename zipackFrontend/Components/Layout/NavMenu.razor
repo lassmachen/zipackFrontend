@@ -1,26 +1,24 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- Verlinkung zur CSS-Datei -->
+    <title>Navigation Example</title>
+</head>
 <body>
 <div class="main-container">
     <!-- Navigation -->
     <div class="rectangle">
         <a href="/" class="zipack">zipack</a>
         
-        <a href="/" class="button hvr-grow">
-            Home
-        </a>
-        <a href="/news" class="button hvr-grow">
-            News
-        </a>
-        <a href="/releases" class="button hvr-grow">
-            Releases
-        </a>
-        <a href="/team" class="button hvr-grow">
-            Team
-        </a>
-        <a href="/legal" class="button hvr-grow">
-            Legal
-        </a>
+        <div class="nav-links">
+            <a href="/" class="button hvr-grow">Home</a>
+            <a href="/news" class="button hvr-grow">News</a>
+            <a href="/releases" class="button hvr-grow">Releases</a>
+            <a href="/team" class="button hvr-grow">Team</a>
+            <a href="/legal" class="button hvr-grow">Legal</a>
+        </div>
 
         <!-- Sprachumschaltung -->
         <div class="language-switcher">
@@ -28,18 +26,28 @@
         </div>
 
         <!-- Download Button -->
-        <div class="text-center mt-8 relative group">
-            <button class="download-button">
-                Download
-            </button>
-            
+        <div class="text-center mt-8 relative group download-button-container">
+            <button class="download-button">Download</button>
             <a href="/download" class="absolute inset-0" aria-label="Download"></a>
         </div>
+
+        <!-- Donate Icon -->
+        <div class="donate-icon-container">
+            <a href="/donate" class="donate-icon" aria-label="Donate">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12" y2="8" />
+                </svg>
+                <span class="notification-dot"></span> <!-- Roter Punkt für Neuigkeiten -->
+            </a>
+        </div>
+
         <div class="line"></div>
     </div>
     
     <div class="content">
-       
+        <!-- Hier kann der Hauptinhalt platziert werden -->
     </div>
 </div>
 
@@ -51,16 +59,12 @@
         const flagImage = document.getElementById('language-flag');
         
         if (isGerman) {
-            // Ändere die Flagge auf Großbritannien und setze die Sprache auf Englisch
             flagImage.src = './assets/images/GreatBritainFlag.png';
             isGerman = false;
-            // Hier könnte man die Seite auf Englisch umschalten
             console.log('Sprache auf Englisch umgestellt');
         } else {
-            // Ändere die Flagge zurück zur Deutschland-Flagge und setze die Sprache auf Deutsch
             flagImage.src = './assets/images/GermanFlag.png';
             isGerman = true;
-            // Hier könnte man die Seite auf Deutsch umschalten
             console.log('Sprache auf Deutsch umgestellt');
         }
     }
