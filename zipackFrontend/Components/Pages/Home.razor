@@ -20,29 +20,30 @@
         Logger.LogInformation("Got {0}!", _assets.Count);
         Logger.LogInformation("Home page initialized");
     }
-    
+
     private string GetAsset(string key)
     {
         Logger.LogInformation("Getting asset for {0}...", key);
-        
+
         if (_assets == null)
         {
             throw new InvalidOperationException("Language assets not loaded!");
             return key;
         }
-        
+
         var asset = _assets.Find(a => a.Key == key);
-        
+
         if (asset == null)
         {
             Logger.LogWarning("Asset not found: {0}", key);
             return key;
         }
-        
+
         Logger.LogInformation("Found asset: {0}", key);
-        
+
         return _isEnglish ? asset.EnEN : asset.DeDE;
     }
+
 }
 
 @code {
@@ -52,7 +53,6 @@
         if (firstRender)
         {
             ReloadLang();
-            await InvokeAsync(StateHasChanged);
         }
     }
 
@@ -60,7 +60,6 @@
     {
         Logger.LogInformation("Reloading language...");
         _ = UpdateLanguageState();
-        StateHasChanged();
         Logger.LogInformation("Reload completed!");
     }
 
@@ -118,16 +117,47 @@
                  style="background-image: url('./assets/images/zipacklogo.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
         </div>
 
+        @code {
+            private bool _isExpanded = false;
+
+            private void ToggleContainer()
+            {
+                _isExpanded = !_isExpanded;
+                StateHasChanged();
+            }
+
+        }
+
         <!-- Main Section -->
-        <div class="text-center py-12" id="textContainer">
-            <h1 class="animate__animated animate__zoomIn">
-                <a class="button hvr-grow">
-                    <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
-                        <h1 class="text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.allinone")</h1>
-                        <h2 class="text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.filemanager")</h2>
-                    </div>
-                </a>
-            </h1>
+        <div class="text-center py-12">
+            @if (_isExpanded)
+            {
+                <div
+                    class="bg-white mx-auto px-6 py-4 max-w-xl rounded-lg animate__animated animate__fadeIn button hvr-grow"
+                    @onclick="ToggleContainer"
+                    style="cursor: pointer">
+                    
+                    <h1 class="text-[28px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.Container.Title")</h1>
+                    <p class="text-[16px] mt-4">@GetAsset("Pages.Home.Container.Part.1")</p>
+                    <p class="text-[16px] mt-4">@GetAsset("Pages.Home.Container.Part.2")</p>
+                    <p class="text-[16px] mt-4">@GetAsset("Pages.Home.Container.Part.3")</p>
+
+                    <h2 class="text-[20px] font-staatliches tracking-[3px] mt-6">@GetAsset("Pages.Home.Container.Footer")</h2>
+
+                </div>
+            }
+            else
+            {
+                <h1 class="animate__animated animate__zoomIn">
+                    <a class="button hvr-grow" @onclick="ToggleContainer" style="cursor: pointer">
+                        <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
+                            <h1 class="text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.allinone")</h1>
+                            <h2 class="text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.filemanager")</h2>
+                        </div>
+
+                    </a>
+                </h1>
+            }
         </div>
 
         <!-- Image Section Below "File Manager" -->
@@ -141,8 +171,8 @@
         <div class="bg-white py-10">
             <div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-12 lg:px-20">
                 <div class="text-center md:text-left mb-6 md:mb-0">
-                    <h3 class="text-black text-[48px] font-staatliches tracking-[3px]">Easy</h3>
-                    <h3 class="text-black text-[48px] font-staatliches tracking-[3px]"> & fast</h3>
+                    <h3 class="text-black text-[48px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.Easy")</h3>
+                    <h3 class="text-black text-[48px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.Fast")</h3>
                 </div>
                 <h1 class="animate__animated animate__slideInRight">
                     <div
@@ -157,7 +187,7 @@
         <div class="bg-black text-white py-10">
             <div class="text-center px-6">
                 <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
-                    Manage your Files
+                    @GetAsset("Pages.Home.ManageFiles")
                 </h3>
             </div>
             <h1 class="animate__animated animate__slideInLeft">
@@ -171,9 +201,8 @@
         <!-- Be Updated Section -->
         <div class="bg-white py-10">
             <div class="text-center px-6">
-                <h3 class="text-black text-[36px] font-staatliches tracking-[3px]">Be updated</h3>
-                <p class="text-[18px] font-sulphur-point mt-4">Stay up to date with the latest features and
-                    improvements.</p>
+                <h3 class="text-black text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.BeUpdated.Title")</h3>
+                <p class="text-[18px] font-sulphur-point mt-4">@GetAsset("Pages.Home.BeUpdated.Body")</p>
             </div>
         </div>
 
@@ -181,8 +210,12 @@
         <div class="bg-black text-white py-10">
             <div class="text-center px-6">
                 <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
-                    Customizable<br/>& professional
+                    @GetAsset("Pages.Home.Customizable")
                 </h3>
+                <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
+                    @GetAsset("Pages.Home.Professional")
+                </h3>
+                
             </div>
             <h1 class="animate__animated animate__slideInRight">
                 <div
@@ -201,7 +234,7 @@
 
         <!-- Footer Section -->
         <footer class="bg-black py-8 text-center text-gray-400">
-            <p>&copy; 2025 Zipack. All rights reserved.</p>
+            <p>&copy; 2025 Zipack. @GetAsset("Shared.RightsReserved")</p>
             <div class="mt-4 flex justify-center space-x-6">
                 <a href="/download" class="hover:text-[#802BB1]">Download</a>
                 <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
@@ -214,55 +247,7 @@
             </div>
         </footer>
     </div>
-
 }
 
 </body>
-
-<script>
-    let isExpanded = false; // Zustand des Containers
-
-    function toggleContainer() {
-        const textContainer = document.getElementById("textContainer");
-
-        if (!isExpanded) {
-            textContainer.innerHTML = `
-                <div class="bg-white mx-auto px-6 py-4 max-w-xl rounded-lg animate__animated animate__fadeIn">
-                    <h1 class="text-[28px] font-staatliches tracking-[3px]">Zipack is more than just an archiving program – it is the future of file management.</h1>
-                    <p class="text-[16px] mt-4">
-                        With Zipack, you only need one software to handle almost any file format. No more chaos from multiple applications for your files: Zipack combines nearly everything you need into a single, modern application. Whether you are a professional or a beginner, Zipack is easy to use and the number one choice for file management.
-                    </p>
-                    <p class="text-[16px] mt-4">
-                        The modular core structure offers seamless integration of third-party add-ons developed and uploaded by professionals. Our marketplace ensures you find the perfect solution for your file processing needs.
-                    </p>
-                    <p class="text-[16px] mt-4">
-                        Zipack is developed by a passionate team dedicated to continuous improvement. The project is completely open-source and thrives on community support. Donations are essential to cover server costs and further development, enabling Zipack to fulfill its vision of universal file management.
-                    </p>
-                 
-                    <h2 class="text-[20px] font-staatliches tracking-[3px] mt-6">Zipack – Simple. Flexible. Expandable.</h2>
-                </div>
-            `;
-        } else {
-            // Wenn der Container bereits geöffnet ist, setzen wir ihn zurück
-            textContainer.innerHTML = `
-                <h1 class="animate__animated animate__zoomIn">
-                    <a class="button hvr-grow">
-                        <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
-                            <h1 class="text-[36px] font-staatliches tracking-[3px]">ALL in one</h1>
-                            <h2 class="text-[36px] font-staatliches tracking-[3px]">File Manager</h2>
-                        </div>
-                    </a>
-                </h1>
-            `;
-        }
-
-        isExpanded = !isExpanded; // Zustand umschalten
-    }
-
-    // Fügen Sie den Event-Listener beim Laden der Seite hinzu
-    window.onload = function () {
-        document.getElementById("textContainer").addEventListener("click", toggleContainer);
-    };
-</script>
-
 </html>
