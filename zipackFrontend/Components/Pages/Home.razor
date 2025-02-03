@@ -1,22 +1,102 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Home> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
 <!DOCTYPE html>
 <html lang="en">
 
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Home page initialized");
+    }
+    
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+        
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+        
+        var asset = _assets.Find(a => a.Key == key);
+        
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+        
+        Logger.LogInformation("Found asset: {0}", key);
+        
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        StateHasChanged();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Zip file opener, file manager, extract zip, open files, all-in-one file solution, file compression, file extractor">
-    <meta name="description" content="Zip files, extract archives, and manage all your documents with ease. Zipack is your all-in-one file solution for opening, compressing, and organizing files.">
+    <meta name="keywords"
+          content="Zip file opener, file manager, extract zip, open files, all-in-one file solution, file compression, file extractor">
+    <meta name="description"
+          content="Zip files, extract archives, and manage all your documents with ease. Zipack is your all-in-one file solution for opening, compressing, and organizing files.">
     <meta property="og:title" content="Zipack | All-in-One File Solution"/>
-    <meta property="og:description" content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place."/>
+    <meta property="og:description"
+          content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place."/>
     <meta property="og:image" content="https://www.zipack.net/assets/images/preview.png"/>
     <meta property="og:url" content="https://www.zipack.net"/>
     <meta property="og:type" content="website"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Zipack | All-in-One File Solution"/>
-    <meta name="twitter:description" content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place."/>
+    <meta name="twitter:description"
+          content="Zipack is the ultimate file manager, allowing you to easily open, compress, and organize all your files in one place."/>
     <meta name="twitter:image" content="https://www.zipack.net/assets/images/preview.jpg"/>
     <meta name="language" content="en">
     <PageTitle>zipack.net | An all-in-one file solution</PageTitle>
@@ -28,103 +108,113 @@
 
 <div class="w-full h-[100px] bg-black"></div>
 
-<div class="relative w-full mx-auto">
-    <!-- Image Section Above "File Manager" -->
-    <div class="relative w-full h-[200px] bg-black">
-        <div class="absolute w-full h-full bg-cover bg-center rounded-lg" style="background-image: url('./assets/images/zipacklogo.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
-    </div>
-
-    <!-- Main Section -->
-    <div class="text-center py-12" id="textContainer">
-        <h1 class="animate__animated animate__zoomIn">
-            <a class="button hvr-grow">
-                <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
-                    <h1 class="text-[36px] font-staatliches tracking-[3px]">ALL in one</h1>
-                    <h2 class="text-[36px] font-staatliches tracking-[3px]">File Manager</h2>
-                </div>
-            </a>
-        </h1>
-    </div>
-
-    <!-- Image Section Below "File Manager" -->
-    <div class="relative w-full h-[500px] bg-black">
-        <div class="absolute w-full h-full bg-cover bg-center rounded-lg"
-             style="background-image: url('./assets/images/200+.png'); background-size: contain; background-repeat: no-repeat; background-position: center;">
+@if (_assets != null)
+{
+    <div class="relative w-full mx-auto">
+        <!-- Image Section Above "File Manager" -->
+        <div class="relative w-full h-[200px] bg-black">
+            <div class="absolute w-full h-full bg-cover bg-center rounded-lg"
+                 style="background-image: url('./assets/images/zipacklogo.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
         </div>
-    </div>
 
-    <!-- Features Section (Easy & Fast) -->
-    <div class="bg-white py-10">
-        <div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-12 lg:px-20">
-            <div class="text-center md:text-left mb-6 md:mb-0">
-                <h3 class="text-black text-[48px] font-staatliches tracking-[3px]">Easy</h3>
-                <h3 class="text-black text-[48px] font-staatliches tracking-[3px]"> & fast</h3>
+        <!-- Main Section -->
+        <div class="text-center py-12" id="textContainer">
+            <h1 class="animate__animated animate__zoomIn">
+                <a class="button hvr-grow">
+                    <div class="bg-white mx-auto px-6 py-4 max-w-4xl rounded-lg">
+                        <h1 class="text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.allinone")</h1>
+                        <h2 class="text-[36px] font-staatliches tracking-[3px]">@GetAsset("Pages.Home.filemanager")</h2>
+                    </div>
+                </a>
+            </h1>
+        </div>
+
+        <!-- Image Section Below "File Manager" -->
+        <div class="relative w-full h-[500px] bg-black">
+            <div class="absolute w-full h-full bg-cover bg-center rounded-lg"
+                 style="background-image: url('./assets/images/200+.png'); background-size: contain; background-repeat: no-repeat; background-position: center;">
             </div>
-            <h1 class="animate__animated animate__slideInRight">
-                <div class="w-[500px] h-[300px] bg-cover bg-center rounded-lg transform transition duration-300 hover:scale-110"
-                     style="background-image: url('./assets/images/openerPNG.PNG'); background-size: 100% 100%;">
+        </div>
+
+        <!-- Features Section (Easy & Fast) -->
+        <div class="bg-white py-10">
+            <div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-12 lg:px-20">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <h3 class="text-black text-[48px] font-staatliches tracking-[3px]">Easy</h3>
+                    <h3 class="text-black text-[48px] font-staatliches tracking-[3px]"> & fast</h3>
+                </div>
+                <h1 class="animate__animated animate__slideInRight">
+                    <div
+                        class="w-[500px] h-[300px] bg-cover bg-center rounded-lg transform transition duration-300 hover:scale-110"
+                        style="background-image: url('./assets/images/openerPNG.PNG'); background-size: 100% 100%;">
+                    </div>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Manage Your Files Section -->
+        <div class="bg-black text-white py-10">
+            <div class="text-center px-6">
+                <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
+                    Manage your Files
+                </h3>
+            </div>
+            <h1 class="animate__animated animate__slideInLeft">
+                <div
+                    class="w-[500px] h-[300px] bg-cover bg-center rounded-lg mx-auto mt-6 transform transition duration-300 hover:scale-110"
+                    style="background-image: url('./assets/images/Files.PNG'); background-size: 100% 100%;">
                 </div>
             </h1>
         </div>
-    </div>
 
-    <!-- Manage Your Files Section -->
-    <div class="bg-black text-white py-10">
-        <div class="text-center px-6">
-            <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
-                Manage your Files
-            </h3>
-        </div>
-        <h1 class="animate__animated animate__slideInLeft">
-            <div class="w-[500px] h-[300px] bg-cover bg-center rounded-lg mx-auto mt-6 transform transition duration-300 hover:scale-110"
-                 style="background-image: url('./assets/images/Files.PNG'); background-size: 100% 100%;">
+        <!-- Be Updated Section -->
+        <div class="bg-white py-10">
+            <div class="text-center px-6">
+                <h3 class="text-black text-[36px] font-staatliches tracking-[3px]">Be updated</h3>
+                <p class="text-[18px] font-sulphur-point mt-4">Stay up to date with the latest features and
+                    improvements.</p>
             </div>
-        </h1>
-    </div>
-
-    <!-- Be Updated Section -->
-    <div class="bg-white py-10">
-        <div class="text-center px-6">
-            <h3 class="text-black text-[36px] font-staatliches tracking-[3px]">Be updated</h3>
-            <p class="text-[18px] font-sulphur-point mt-4">Stay up to date with the latest features and improvements.</p>
         </div>
-    </div>
 
-    <!-- Customizable Section -->
-    <div class="bg-black text-white py-10">
-        <div class="text-center px-6">
-            <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
-                Customizable<br/>& professional
-            </h3>
-        </div>
-        <h1 class="animate__animated animate__slideInRight">
-            <div class="w-[500px] h-[300px] bg-cover bg-center rounded-lg mx-auto mt-6 transform transition duration-300 hover:scale-110"
-                 style="background-image: url('./assets/images/Marketplace.png'); background-size: 100% 100%;">
+        <!-- Customizable Section -->
+        <div class="bg-black text-white py-10">
+            <div class="text-center px-6">
+                <h3 class="text-[36px] font-staatliches tracking-[3px] leading-tight">
+                    Customizable<br/>& professional
+                </h3>
             </div>
-        </h1>
-        <div class="text-center mt-8 relative group">
-            <button class="bg-[#802BB1] text-white text-[20px] font-sulphur-point px-6 py-2 rounded-lg transition duration-300 ease-in-out transform group-hover:scale-110 group-hover:bg-[#9c3cbb]">
-                Download
-            </button>
-            <a href="/download" class="absolute inset-0" aria-label="Download"></a>
+            <h1 class="animate__animated animate__slideInRight">
+                <div
+                    class="w-[500px] h-[300px] bg-cover bg-center rounded-lg mx-auto mt-6 transform transition duration-300 hover:scale-110"
+                    style="background-image: url('./assets/images/Marketplace.png'); background-size: 100% 100%;">
+                </div>
+            </h1>
+            <div class="text-center mt-8 relative group">
+                <button
+                    class="bg-[#802BB1] text-white text-[20px] font-sulphur-point px-6 py-2 rounded-lg transition duration-300 ease-in-out transform group-hover:scale-110 group-hover:bg-[#9c3cbb]">
+                    Download
+                </button>
+                <a href="/download" class="absolute inset-0" aria-label="Download"></a>
+            </div>
         </div>
+
+        <!-- Footer Section -->
+        <footer class="bg-black py-8 text-center text-gray-400">
+            <p>&copy; 2025 Zipack. All rights reserved.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="/download" class="hover:text-[#802BB1]">Download</a>
+                <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
+                <a href="/support" class="hover:text-[#802BB1]">Support</a>
+                <a href="/team" class="hover:text-[#802BB1]">Team</a>
+                <a href="/donate" class="hover:text-[#802BB1]">
+                    Donate
+                </a>
+                <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
+            </div>
+        </footer>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-black py-8 text-center text-gray-400">
-        <p>&copy; 2025 Zipack. All rights reserved.</p>
-        <div class="mt-4 flex justify-center space-x-6">
-            <a href="/download" class="hover:text-[#802BB1]">Download</a>
-            <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
-            <a href="/support" class="hover:text-[#802BB1]">Support</a>
-            <a href="/team" class="hover:text-[#802BB1]">Team</a>
-            <a href="/donate" class="hover:text-[#802BB1]">
-                Donate
-            </a>
-            <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
-        </div>
-    </footer>
-</div>
+}
 
 </body>
 
@@ -169,7 +259,7 @@
     }
 
     // Fügen Sie den Event-Listener beim Laden der Seite hinzu
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById("textContainer").addEventListener("click", toggleContainer);
     };
 </script>

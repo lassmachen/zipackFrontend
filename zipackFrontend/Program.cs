@@ -1,14 +1,19 @@
-using zipackFrontend.Client.Pages;
+using Blazored.LocalStorage;
 using zipackFrontend.Components;
+using zipackFrontend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddScoped<HttpClient>();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<LanguageService>();
+builder.Services.AddScoped<LanguageAPI>();
 
 var app = builder.Build();
 

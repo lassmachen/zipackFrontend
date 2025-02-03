@@ -1,10 +1,66 @@
-﻿<!DOCTYPE html>
+﻿@using zipackFrontend.Data
+@inject ILogger<NavMenu> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
+
+@code {
+    private bool _isEnglish;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("NavBar initialized");
+    }
+    
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        StateHasChanged();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+    
+    public void SwitchLanguage()
+    {
+        _ = LanguageService.ToggleLanguage();
+        ReloadLang();
+    }
+
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css"> <!-- Verlinkung zur CSS-Datei -->
-    <title>Navigation Example</title>
 </head>
 <body>
 <div class="main-container">
@@ -21,9 +77,16 @@
         </div>
 
         <!-- Sprachumschaltung -->
-        <div class="language-switcher">
-            <img id="language-flag" src="./assets/images/GreatBritainFlag.png" alt="GB Flagge" onclick="switchLanguage()" />
-        </div>
+        <button class="language-switcher" @onclick="SwitchLanguage">
+            @if (_isEnglish)
+            {
+                <img src="./assets/images/Germanflag.png" alt="Deutsche Flagge"/>
+            }
+            else
+            {
+                <img src="./assets/images/GreatBritainFlag.png" alt="GB Flagge"/>
+            }
+        </button>
 
         <!-- Download Button -->
         <div class="text-center mt-8 relative group download-button-container">
@@ -50,24 +113,5 @@
         <!-- Hier kann der Hauptinhalt platziert werden -->
     </div>
 </div>
-
-<script>
-    // JavaScript für Sprachumschaltung
-    let isGerman = false; // Initiale Sprache ist Englisch (false bedeutet Englisch)
-
-    function switchLanguage() {
-        const flagImage = document.getElementById('language-flag');
-        
-        if (isGerman) {
-            flagImage.src = './assets/images/GreatBritainFlag.png';
-            isGerman = false;
-            console.log('Sprache auf Englisch umgestellt');
-        } else {
-            flagImage.src = './assets/images/GermanFlag.png';
-            isGerman = true;
-            console.log('Sprache auf Deutsch umgestellt');
-        }
-    }
-</script>
 </body>
 </html>

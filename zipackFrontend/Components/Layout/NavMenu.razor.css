@@ -32,7 +32,7 @@ html, body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Zipack-Sigmn */
+/* Zipack-Sign */
 .zipack {
     font-family: 'Racing Sans One', sans-serif;
     font-size: 28px;
@@ -182,4 +182,5 @@ html, body {
     width: 10px; /* Größe des Punktes */
     height: 10px; /* Größe des Punktes */
     background-color: red; /* Farbe des Punktes */
-    border-radius: 50%; /* Runde Form
+    border-radius: 50%;
+}
