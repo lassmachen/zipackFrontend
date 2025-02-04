@@ -1,17 +1,17 @@
-﻿@using zipackFrontend.Data
+﻿@rendermode InteractiveServer
+@using zipackFrontend.Data
 @inject ILogger<NavMenu> Logger
 @inject LanguageService LanguageService
 @inject LanguageAPI LanguageAPI
 
 @code {
     private bool _isEnglish;
-    
+
     protected override async Task OnInitializedAsync()
     {
         LanguageService.OnLanguageChanged += ReloadLang;
         Logger.LogInformation("NavBar initialized");
     }
-    
 }
 
 @code {
@@ -46,7 +46,7 @@
     {
         LanguageService.OnLanguageChanged -= ReloadLang;
     }
-    
+
     public void SwitchLanguage()
     {
         _ = LanguageService.ToggleLanguage();
@@ -55,19 +55,11 @@
 
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css"> <!-- Verlinkung zur CSS-Datei -->
-</head>
-<body>
-<div class="main-container">
+<div class="w-max h-max flex flex-col items-center">
     <!-- Navigation -->
     <div class="rectangle">
         <a href="/" class="zipack">zipack</a>
-        
+
         <div class="nav-links">
             <a href="/" class="button hvr-grow">Home</a>
             <a href="/news" class="button hvr-grow">News</a>
@@ -97,10 +89,11 @@
         <!-- Donate Icon -->
         <div class="donate-icon-container">
             <a href="/donate" class="donate-icon" aria-label="Donate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="16" x2="12" y2="12" />
-                    <line x1="12" y1="8" x2="12" y2="8" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                     stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12" y2="8"/>
                 </svg>
                 <span class="notification-dot"></span> <!-- Roter Punkt für Neuigkeiten -->
             </a>
@@ -108,10 +101,4 @@
 
         <div class="line"></div>
     </div>
-    
-    <div class="content">
-        <!-- Hier kann der Hauptinhalt platziert werden -->
-    </div>
 </div>
-</body>
-</html>

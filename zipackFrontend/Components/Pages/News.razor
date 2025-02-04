@@ -1,49 +1,10 @@
 ﻿@page "/news"
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News | zipack.net</title>
-    <style>
-       
-        .scrollable {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .scrollable {
-            scrollbar-width: thin;
-            scrollbar-color: #7e00b0 transparent;
-        }
-
-        .scrollable::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .scrollable::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .scrollable::-webkit-scrollbar-thumb {
-            background: #7e00b0;
-            border-radius: 8px;
-        }
-
-        .scrollable::-webkit-scrollbar-thumb:hover {
-            background: #9c3cbb;
-        }
-
-        .scrollable::-webkit-scrollbar-thumb:active {
-            background: #6a00a1;
-        }
-    </style>
-</head>
-
 <body class="min-h-screen bg-gradient-to-b from-black to-purple-700 text-white">
 
+<PageTitle>News | zipack.net</PageTitle>
+
+<div>
     <!-- Hero Section -->
     <section id="vanta-bg" class="py-16 px-4 pt-32">
         <h1 class="animate__animated bounce">
@@ -57,18 +18,24 @@
     <!-- News Section -->
     <main class="py-12 px-4">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
+
             <!-- Article Card -->
             <a href="#" class="button hvr-grow">
                 <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
-                    <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                    <article
+                        class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
                         <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col justify-start"> 
-                           
-                            <h3 class="text-2xl font-bold text-white mb-2">Global Mars Mission Achieves Major Breakthrough</h3>
-                            
+                        <div class="p-6 flex flex-col justify-start">
+
+                            <h3 class="text-2xl font-bold text-white mb-2">Global Mars Mission Achieves Major
+                                Breakthrough</h3>
+
                             <p class="text-gray-300 scrollable">
-                                A collaborative effort by international space agencies has reached a significant milestone in Mars research. The latest rover, equipped with advanced technology, has discovered organic compounds on the Red Planet for the first time, greatly increasing the possibility of life on Mars. Scientists around the world are excited about the initial findings and are already planning the next steps for exploration.
+                                A collaborative effort by international space agencies has reached a significant
+                                milestone in Mars research. The latest rover, equipped with advanced technology, has
+                                discovered organic compounds on the Red Planet for the first time, greatly increasing
+                                the possibility of life on Mars. Scientists around the world are excited about the
+                                initial findings and are already planning the next steps for exploration.
                             </p>
                         </div>
                     </article>
@@ -78,14 +45,19 @@
             <!-- Next Article Card -->
             <a href="#" class="button hvr-grow">
                 <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
-                    <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                    <article
+                        class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
                         <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col justify-start"> 
-                            
+                        <div class="p-6 flex flex-col justify-start">
+
                             <h3 class="text-2xl font-bold text-white mb-2">New World Record</h3>
-                           
+
                             <p class="text-gray-300 scrollable">
-                                A 29-year-old Kenyan runner has set a new world record in the marathon by completing the 42.195 kilometers in an incredible 1 hour, 59 minutes, and 40 seconds. This marks the first time a marathon runner has finished under two hours, and many experts consider this a revolutionary moment for the sport. Fans and sports journalists alike agree: the marathon will never be the same.
+                                A 29-year-old Kenyan runner has set a new world record in the marathon by completing the
+                                42.195 kilometers in an incredible 1 hour, 59 minutes, and 40 seconds. This marks the
+                                first time a marathon runner has finished under two hours, and many experts consider
+                                this a revolutionary moment for the sport. Fans and sports journalists alike agree: the
+                                marathon will never be the same.
                             </p>
                         </div>
                     </article>
@@ -94,14 +66,17 @@
 
             <a href="#" class="button hvr-grow">
                 <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
-                    <article class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                    <article
+                        class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
                         <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col justify-start"> 
-                           
+                        <div class="p-6 flex flex-col justify-start">
+
                             <h3 class="text-2xl font-bold text-white mb-2">Artificial Intelligence</h3>
-                           
+
                             <p class="text-gray-300 scrollable">
-                                Researchers have made a breakthrough in medicine by developing an artificial intelligence system capable of diagnosing diseases like cancer and Alzheimer's at an early stage.
+                                Researchers have made a breakthrough in medicine by developing an artificial
+                                intelligence system capable of diagnosing diseases like cancer and Alzheimer's at an
+                                early stage.
                             </p>
                         </div>
                     </article>
@@ -123,6 +98,42 @@
         </div>
     </footer>
 
+</div>
+
+<style>
+
+    .scrollable {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .scrollable {
+        scrollbar-width: thin;
+        scrollbar-color: #7e00b0 transparent;
+    }
+
+    .scrollable::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollable::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scrollable::-webkit-scrollbar-thumb {
+        background: #7e00b0;
+        border-radius: 8px;
+    }
+
+    .scrollable::-webkit-scrollbar-thumb:hover {
+        background: #9c3cbb;
+    }
+
+    .scrollable::-webkit-scrollbar-thumb:active {
+        background: #6a00a1;
+    }
+</style>
+
 </body>
 
-</html>
+
