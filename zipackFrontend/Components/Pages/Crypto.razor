@@ -1,92 +1,184 @@
 ﻿@page "/crypto"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Crypto> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
-<style>
-    body {
-        background: radial-gradient(circle, rgba(50, 0, 100, 1) 0%, rgba(10, 10, 20, 1) 100%);
-        font-family: 'Arial', sans-serif;
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Crypto page initialized");
     }
 
-    .glow {
-        box-shadow: 0 0 20px rgba(200, 0, 255, 0.8);
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
     }
 
-    .neon-text {
-        text-shadow: 0px 0px 12px rgba(200, 0, 255, 0.8);
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
     }
-</style>
 
-<body class="bg-gray-900 text-white min-h-screen flex items-start justify-center">
-<div class="container mx-auto px-4 text-center mt-20"> <!-- Abstand nach oben erhöht -->
-    <h1 class="text-5xl font-bold neon-text mb-3">Donate Crypto</h1>
-    <p class="text-lg text-gray-300 mb-6">Want to support us while staying anonymous?</p>
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
 
-    <div class="space-y-6 w-full max-w-md">
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white">
-            <h3 class="text-xl font-bold mb-2">Bitcoin (BTC)</h3>
-            <p id="btcAddress" class="text-gray-300 break-all">bc1q9lu8zvkkq7th8c5retzm6tx44ezv7h7m9zs5aj</p>
-            <button onclick="copyToClipboard('btcAddress', this)"
-                    class="mt-2 px-4 py-2 bg-purple-900 hover:bg-gray-900 rounded-lg shadow-md text-white transition">📋
-                Copy
-            </button>
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+<section class="bg-gray-900 text-white min-h-screen flex items-start justify-center">
+
+    <PageTitle>Crypto | zipack.net</PageTitle>
+    
+    @if (_assets != null)
+    {
+
+        <div>
+
+            <div class="container mx-auto px-4 text-center mt-40"> <!-- Abstand nach oben erhöht -->
+                <h1 class="text-5xl font-bold neon-text mb-3">Donate Crypto</h1>
+                <p class="text-lg text-gray-300 mb-6">Want to support us while staying anonymous?</p>
+
+                <div class="space-y-6 w-full max-w-md">
+                    <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white">
+                        <h3 class="text-xl font-bold mb-2">Bitcoin (BTC)</h3>
+                        <p id="btcAddress" class="text-gray-300 break-all">bc1q9lu8zvkkq7th8c5retzm6tx44ezv7h7m9zs5aj</p>
+                        <button onclick="copyToClipboard('btcAddress', this)"
+                                class="mt-2 px-4 py-2 bg-purple-900 hover:bg-<gray-900 rounded-lg shadow-md text-white transition">
+                            📋
+                            Copy
+                        </button>
+                    </div>
+
+                    <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white">
+                        <h3 class="text-xl font-bold mb-2">Ethereum (ETH)</h3>
+                        <p id="ethAddress" class="text-gray-300 break-all">0x0BBBeC6d8DEd7700d5b5f25062bABa2f1c864844</p>
+                        <button onclick="copyToClipboard('ethAddress', this)"
+                                class="mt-2 px-4 py-2 bg-purple-900 hover:bg-gray-900 rounded-lg shadow-md text-white transition">
+                            📋
+                            Copy
+                        </button>
+                    </div>
+
+                    <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white">
+                        <h3 class="text-xl font-bold mb-2">Solana (SOL)</h3>
+                        <p id="solAddress" class="text-gray-300 break-all">7rKeNcJJ4KPGpYpGiajg4k65r2PF26B9nQHojm7F2j1m</p>
+                        <button onclick="copyToClipboard('solAddress', this)"
+                                class="mt-2 px-4 py-2 bg-purple-900 hover:bg-gray-900 rounded-lg shadow-md text-white transition">
+                            📋
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white">
-            <h3 class="text-xl font-bold mb-2">Ethereum (ETH)</h3>
-            <p id="ethAddress" class="text-gray-300 break-all">0x0BBBeC6d8DEd7700d5b5f25062bABa2f1c864844</p>
-            <button onclick="copyToClipboard('ethAddress', this)"
-                    class="mt-2 px-4 py-2 bg-purple-900 hover:bg-gray-900 rounded-lg shadow-md text-white transition">📋
-                Copy
-            </button>
-        </div>
+    }
 
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white">
-            <h3 class="text-xl font-bold mb-2">Solana (SOL)</h3>
-            <p id="solAddress" class="text-gray-300 break-all">7rKeNcJJ4KPGpYpGiajg4k65r2PF26B9nQHojm7F2j1m</p>
-            <button onclick="copyToClipboard('solAddress', this)"
-                    class="mt-2 px-4 py-2 bg-purple-900 hover:bg-gray-900 rounded-lg shadow-md text-white transition">📋
-                Copy
-            </button>
-        </div>
-    </div>
-</div>
+    <style>
+        body {
+            background: radial-gradient(circle, rgba(50, 0, 100, 1) 0%, rgba(10, 10, 20, 1) 100%);
+            font-family: 'Arial', sans-serif;
+        }
 
-<script>
-    function copyToClipboard(id, button, customText) {
-        const text = customText || document.getElementById(id).textContent.trim();
+        .glow {
+            box-shadow: 0 0 20px rgba(200, 0, 255, 0.8);
+        }
 
-        // Verwende die Clipboard API, wenn verfügbar
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text).then(() => {
-                button.innerText = "✅ Copied!";
-            }).catch(err => {
-                console.error("Clipboard API failed: ", err);
+        .neon-text {
+            text-shadow: 0px 0px 12px rgba(200, 0, 255, 0.8);
+        }
+    </style>
+
+    <script>
+        function copyToClipboard(id, button, customText) {
+            const text = customText || document.getElementById(id).textContent.trim();
+
+            // Verwende die Clipboard API, wenn verfügbar
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    button.innerText = "✅ Copied!";
+                }).catch(err => {
+                    console.error("Clipboard API failed: ", err);
+                    fallbackCopy(text, button);
+                });
+            } else {
                 fallbackCopy(text, button);
-            });
-        } else {
-            fallbackCopy(text, button);
+            }
+
+            // Setze den Button-Text nach 2 Sekunden zurück
+            setTimeout(() => {
+                button.innerText = "📋 Copy";
+            }, 2000);
         }
 
-        // Setze den Button-Text nach 2 Sekunden zurück
-        setTimeout(() => {
-            button.innerText = "📋 Copy";
-        }, 2000);
-    }
-
-    function fallbackCopy(text, button) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand("copy");
-            button.innerText = "✅ Copied!";
-        } catch (err) {
-            console.error("Fallback copy failed: ", err);
-            button.innerText = "❌ Error!";
+        function fallbackCopy(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand("copy");
+                button.innerText = "✅ Copied!";
+            } catch (err) {
+                console.error("Fallback copy failed: ", err);
+                button.innerText = "❌ Error!";
+            }
+            document.body.removeChild(textArea);
         }
-        document.body.removeChild(textArea);
-    }
-</script>
-</body>
+    </script>
+
+</section>

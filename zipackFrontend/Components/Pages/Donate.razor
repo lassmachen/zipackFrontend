@@ -1,72 +1,154 @@
 ﻿@page "/donate"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Donate> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
-<body
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Team page initialized");
+    }
+
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+<section
     class="bg-gradient-to-b from-black to-purple-700 text-white min-h-screen flex items-center justify-center fade-in">
 
-<PageTitle>Donate | zipack.net</PageTitle>
+    <PageTitle>Donate | zipack.net</PageTitle>
+    
+    @if (_assets != null)
+    {
 
-<div>
+        <div>
 
-    <div class="container mx-auto px-4 text-center mt-40"> <!-- Abstand nach oben auf 40 gesetzt -->
-        <h1 class="text-5xl font-bold neon-text mb-3">HELP BY DONATE</h1>
-        <p class="text-lg text-gray-300 mb-6">We need Donations to keep our program online, offer it for download, and
-            continuously develop it further.</p>
-        <div class="flex justify-center space-x-4">
-            <a href="https://ko-fi.com/einfachrobbe"
-               class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">💳
-                Credit Card</a>
-            <a href="https://paypal.me/einfachrobbe"
-               class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">
-                <span class="text-blue-500">Pay</span><span class="text-white">Pal</span>
-            </a>
-            <a href="/crypto"
-               class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">₿
-                Crypto</a>
+            <div class="container mx-auto px-4 text-center mt-40"> <!-- Abstand nach oben auf 40 gesetzt -->
+                <h1 class="text-5xl font-bold neon-text mb-3">HELP BY DONATE</h1>
+                <p class="text-lg text-gray-300 mb-6">We need Donations to keep our program online, offer it for download,
+                    and
+                    continuously develop it further.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://ko-fi.com/einfachrobbe"
+                       class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">💳
+                        Credit Card</a>
+                    <a href="https://paypal.me/einfachrobbe"
+                       class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">
+                        <span class="text-blue-500">Pay</span><span class="text-white">Pal</span>
+                    </a>
+                    <a href="/crypto"
+                       class="px-10 py-5 bg-purple-900 hover:bg-gray-900 rounded-2xl shadow-lg text-white text-2xl font-semibold transition duration-300 border border-gray-600">₿
+                        Crypto</a>
+                </div>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 px-6"> <!-- Abstand nach oben auf 16 gesetzt -->
+                <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+                    <h3 class="text-xl font-bold mb-2">🌍 Help us</h3>
+                    <p>We need donations to have our server constantly on.</p>
+                </div>
+                <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+                    <h3 class="text-xl font-bold mb-2">🚀 Support Innovation</h3>
+                    <p>Help us innovate new designs, programs or new functions.</p>
+                </div>
+                <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+                    <h3 class="text-xl font-bold mb-2">💡 Make a Difference</h3>
+                    <p>Every donation makes a difference in zipack.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 px-6"> <!-- Abstand nach oben auf 4 gesetzt -->
+                <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+                    <h3 class="text-xl font-bold mb-2">🔍 Transparency & Trust</h3>
+                    <p>We ensure every dollar is used effectively, with full transparency and accountability.</p>
+                </div>
+                <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
+                    <h3 class="text-xl font-bold mb-2">🌎 Join a community</h3>
+                    <p>Be part of a great community and have a good time.</p>
+                </div>
+            </div>
+
+            <footer class="mt-4 text-gray-400 text-md text-center"> <!-- Abstand nach oben auf 4 gesetzt -->
+                <p class="mb-3">Your donations help create a future where innovation and compassion drive progress.</p>
+                <p>&copy; 2025 zipack. All Rights Reserved.</p>
+            </footer>
+
         </div>
-    </div>
 
-    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 px-6"> <!-- Abstand nach oben auf 16 gesetzt -->
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
-            <h3 class="text-xl font-bold mb-2">🌍 Help us</h3>
-            <p>We need donations to have our server constantly on.</p>
-        </div>
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
-            <h3 class="text-xl font-bold mb-2">🚀 Support Innovation</h3>
-            <p>Help us innovate new designs, programs or new functions.</p>
-        </div>
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
-            <h3 class="text-xl font-bold mb-2">💡 Make a Difference</h3>
-            <p>Every donation makes a difference in zipack.</p>
-        </div>
-    </div>
-
-    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 px-6"> <!-- Abstand nach oben auf 4 gesetzt -->
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
-            <h3 class="text-xl font-bold mb-2">🔍 Transparency & Trust</h3>
-            <p>We ensure every dollar is used effectively, with full transparency and accountability.</p>
-        </div>
-        <div class="p-4 bg-gray-800 rounded-2xl shadow-lg text-white fade-in">
-            <h3 class="text-xl font-bold mb-2">🌎 Join a community</h3>
-            <p>Be part of a great community and have a good time.</p>
-        </div>
-    </div>
-
-    <footer class="mt-4 text-gray-400 text-md text-center"> <!-- Abstand nach oben auf 4 gesetzt -->
-        <p class="mb-3">Your donations help create a future where innovation and compassion drive progress.</p>
-        <p>&copy; 2025 zipack. All Rights Reserved.</p>
-    </footer>
-
-</div>
-
-<style>
-    .neon-text {
-        text-shadow: 0 0 12px rgba(200, 0, 255, 0.8);
     }
 
-    .fade-in {
-        opacity: 0;
-        animation: fadeIn 1s ease-in forwards;
-    }
-</style>
+    <style>
+        .neon-text {
+            text-shadow: 0 0 12px rgba(200, 0, 255, 0.8);
+        }
 
-</body>
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+    </style>
+
+</section>

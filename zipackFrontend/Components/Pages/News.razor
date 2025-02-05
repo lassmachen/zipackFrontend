@@ -1,104 +1,185 @@
 ﻿@page "/news"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<News> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
-<body class="min-h-screen bg-gradient-to-b from-black to-purple-700 text-white">
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("News page initialized");
+    }
+
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+<section class="min-h-screen bg-gradient-to-b from-black to-purple-700 text-white">
 
 <PageTitle>News | zipack.net</PageTitle>
 
-<div>
-    <!-- Hero Section -->
-    <section id="vanta-bg" class="py-16 px-4 pt-32">
-        <h1 class="animate__animated bounce">
-            <div class="max-w-7xl mx-auto text-center">
-                <h2 class="text-4xl font-bold text-white mb-4">Breaking News of the Day</h2>
-                <p class="text-gray-300 text-lg mb-8">Stay updated with the latest headlines from around the world.</p>
+@if (_assets != null)
+{
+
+    <div>
+        <!-- Hero Section -->
+        <section id="vanta-bg" class="py-16 px-4 pt-32">
+            <h1 class="animate__animated bounce">
+                <div class="max-w-7xl mx-auto text-center">
+                    <h2 class="text-4xl font-bold text-white mb-4">Breaking News of the Day</h2>
+                    <p class="text-gray-300 text-lg mb-8">Stay updated with the latest headlines from around the world.</p>
+                </div>
+            </h1>
+        </section>
+
+        <!-- News Section -->
+        <main class="py-12 px-4">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Article Card -->
+                <a href="#" class="button hvr-grow">
+                    <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
+                        <article
+                            class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                            <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
+                            <div class="p-6 flex flex-col justify-start">
+
+                                <h3 class="text-2xl font-bold text-white mb-2">Global Mars Mission Achieves Major
+                                    Breakthrough</h3>
+
+                                <p class="text-gray-300 scrollable">
+                                    A collaborative effort by international space agencies has reached a significant
+                                    milestone in Mars research. The latest rover, equipped with advanced technology, has
+                                    discovered organic compounds on the Red Planet for the first time, greatly increasing
+                                    the possibility of life on Mars. Scientists around the world are excited about the
+                                    initial findings and are already planning the next steps for exploration.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </a>
+
+                <!-- Next Article Card -->
+                <a href="#" class="button hvr-grow">
+                    <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
+                        <article
+                            class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                            <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
+                            <div class="p-6 flex flex-col justify-start">
+
+                                <h3 class="text-2xl font-bold text-white mb-2">New World Record</h3>
+
+                                <p class="text-gray-300 scrollable">
+                                    A 29-year-old Kenyan runner has set a new world record in the marathon by completing the
+                                    42.195 kilometers in an incredible 1 hour, 59 minutes, and 40 seconds. This marks the
+                                    first time a marathon runner has finished under two hours, and many experts consider
+                                    this a revolutionary moment for the sport. Fans and sports journalists alike agree: the
+                                    marathon will never be the same.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </a>
+
+                <a href="#" class="button hvr-grow">
+                    <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
+                        <article
+                            class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
+                            <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
+                            <div class="p-6 flex flex-col justify-start">
+
+                                <h3 class="text-2xl font-bold text-white mb-2">Artificial Intelligence</h3>
+
+                                <p class="text-gray-300 scrollable">
+                                    Researchers have made a breakthrough in medicine by developing an artificial
+                                    intelligence system capable of diagnosing diseases like cancer and Alzheimer's at an
+                                    early stage.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </a>
             </div>
-        </h1>
-    </section>
+        </main>
 
-    <!-- News Section -->
-    <main class="py-12 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Footer Section -->
+        <footer class="bg-black py-8 text-center text-gray-400">
+            <p>&copy; 2025 Zipack. All rights reserved.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="/download" class="hover:text-[#802BB1]">Download</a>
+                <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
+                <a href="/support" class="hover:text-[#802BB1]">Support</a>
+                <a href="/team" class="hover:text-[#802BB1]">Team</a>
+                <a href="/donate" class="hover:text-[#802BB1]">Donate</a>
+                <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
+            </div>
+        </footer>
 
-            <!-- Article Card -->
-            <a href="#" class="button hvr-grow">
-                <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
-                    <article
-                        class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
-                        <img src="/assets/images/200+.png" alt="News Image" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col justify-start">
+    </div>
 
-                            <h3 class="text-2xl font-bold text-white mb-2">Global Mars Mission Achieves Major
-                                Breakthrough</h3>
-
-                            <p class="text-gray-300 scrollable">
-                                A collaborative effort by international space agencies has reached a significant
-                                milestone in Mars research. The latest rover, equipped with advanced technology, has
-                                discovered organic compounds on the Red Planet for the first time, greatly increasing
-                                the possibility of life on Mars. Scientists around the world are excited about the
-                                initial findings and are already planning the next steps for exploration.
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </a>
-
-            <!-- Next Article Card -->
-            <a href="#" class="button hvr-grow">
-                <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
-                    <article
-                        class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
-                        <img src="/assets/images/200.svg" alt="News Image" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col justify-start">
-
-                            <h3 class="text-2xl font-bold text-white mb-2">New World Record</h3>
-
-                            <p class="text-gray-300 scrollable">
-                                A 29-year-old Kenyan runner has set a new world record in the marathon by completing the
-                                42.195 kilometers in an incredible 1 hour, 59 minutes, and 40 seconds. This marks the
-                                first time a marathon runner has finished under two hours, and many experts consider
-                                this a revolutionary moment for the sport. Fans and sports journalists alike agree: the
-                                marathon will never be the same.
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </a>
-
-            <a href="#" class="button hvr-grow">
-                <div class="animate__animated animate__slideInUp text-white mb-4 flex flex-col h-full">
-                    <article
-                        class="bg-gradient-to-b from-gray-500 to-purple-950 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
-                        <img src="/assets/images/home.png" alt="News Image" class="w-full h-48 object-cover">
-                        <div class="p-6 flex flex-col justify-start">
-
-                            <h3 class="text-2xl font-bold text-white mb-2">Artificial Intelligence</h3>
-
-                            <p class="text-gray-300 scrollable">
-                                Researchers have made a breakthrough in medicine by developing an artificial
-                                intelligence system capable of diagnosing diseases like cancer and Alzheimer's at an
-                                early stage.
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </a>
-        </div>
-    </main>
-
-    <!-- Footer Section -->
-    <footer class="bg-black py-8 text-center text-gray-400">
-        <p>&copy; 2025 Zipack. All rights reserved.</p>
-        <div class="mt-4 flex justify-center space-x-6">
-            <a href="/download" class="hover:text-[#802BB1]">Download</a>
-            <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
-            <a href="/support" class="hover:text-[#802BB1]">Support</a>
-            <a href="/team" class="hover:text-[#802BB1]">Team</a>
-            <a href="/donate" class="hover:text-[#802BB1]">Donate</a>
-            <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
-        </div>
-    </footer>
-
-</div>
+}
 
 <style>
 
@@ -134,6 +215,6 @@
     }
 </style>
 
-</body>
+</section>
 
 

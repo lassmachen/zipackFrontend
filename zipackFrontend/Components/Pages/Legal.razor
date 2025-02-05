@@ -1,74 +1,157 @@
 ﻿@page "/legal"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Legal> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
-<!DOCTYPE html>
-<html lang="en">
-<body class="bg-black text-white font-sans">
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
 
-<PageTitle>Legal | zipack.net</PageTitle>
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Legal page initialized");
+    }
 
-<!-- Header-->
-<header class="relative w-full h-screen flex flex-col items-center justify-center bg-black">
-    <h1 class="animate__animated animate__fadeInDownBig">
-        <div class="text-center">
-            <h1 class="text-8xl font-staatliches tracking-wider text-white">
-                Legal
-            </h1>
-            <p class="mt-4 text-xl font-sulphur-point text-gray-300">
-                Transparency and trust, all in one place.
-            </p>
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+
+<section class="bg-black text-white font-sans">
+
+    <PageTitle>Legal | zipack.net</PageTitle>
+
+    @if (_assets != null)
+    {
+        <div>
+
+            <!-- Header-->
+            <header class="relative w-full h-screen flex flex-col items-center justify-center bg-black">
+                <h1 class="animate__animated animate__fadeInDownBig">
+                    <div class="text-center">
+                        <h1 class="text-8xl font-staatliches tracking-wider text-white">
+                            Legal
+                        </h1>
+                        <p class="mt-4 text-xl font-sulphur-point text-gray-300">
+                            Transparency and trust, all in one place.
+                        </p>
+                    </div>
+                </h1>
+            </header>
+
+            <!-- Content Section -->
+            <main class="py-16">
+                <section id="support" class="text-center py-12 bg-gray-900">
+                    <h2 class="text-5xl font-staatliches text-purple-500">Support</h2>
+                    <p class="mt-4 text-lg font-sulphur-point text-gray-300">
+                        Need assistance? Our team is here to help you anytime.
+                    </p>
+                    <a href="/support"
+                       class="mt-6 inline-block bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-sulphur-point hover:bg-purple-700 transition">
+                        Get Support
+                    </a>
+                </section>
+
+                <section id="contact" class="text-center py-12 bg-black">
+                    <h2 class="text-5xl font-staatliches text-purple-500">Contact</h2>
+                    <p class="mt-4 text-lg font-sulphur-point text-gray-300">
+                        Reach out to us with your queries or feedback.
+                    </p>
+                    <a href="/contact"
+                       class="mt-6 inline-block bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-sulphur-point hover:bg-purple-700 transition">
+                        Contact Us
+                    </a>
+                </section>
+
+                <section id="imprint" class="text-center py-12 bg-gray-900">
+                    <h2 class="text-5xl font-staatliches text-purple-500">Imprint</h2>
+                    <p class="mt-4 text-lg font-sulphur-point text-gray-300">
+                        Explore all the legal details and company information here.
+                    </p>
+                    <a href="/imprint"
+                       class="mt-6 inline-block bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-sulphur-point hover:bg-purple-700 transition">
+                        View Imprint
+                    </a>
+                </section>
+            </main>
+
+            <!-- Footer Section -->
+            <footer class="bg-black py-8 text-center text-gray-400">
+                <p>&copy; 2025 Zipack. All rights reserved.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="/download" class="hover:text-purple-500">Download</a>
+                    <a href="/contact" class="hover:text-purple-500">Contact</a>
+                    <a href="/support" class="hover:text-purple-500">Support</a>
+                    <a href="/team" class="hover:text-purple-500">Team</a>
+                    <a href="/donate" class="hover:text-[#802BB1]">
+                        Donate
+                    </a>
+                    <a href="/imprint" class="hover:text-purple-500">Imprint</a>
+
+                </div>
+            </footer>
+
         </div>
-    </h1>
-</header>
+    }
 
-<!-- Content Section -->
-<main class="py-16">
-    <section id="support" class="text-center py-12 bg-gray-900">
-        <h2 class="text-5xl font-staatliches text-purple-500">Support</h2>
-        <p class="mt-4 text-lg font-sulphur-point text-gray-300">
-            Need assistance? Our team is here to help you anytime.
-        </p>
-        <a href="/support" class="mt-6 inline-block bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-sulphur-point hover:bg-purple-700 transition">
-            Get Support
-        </a>
-    </section>
-
-    <section id="contact" class="text-center py-12 bg-black">
-        <h2 class="text-5xl font-staatliches text-purple-500">Contact</h2>
-        <p class="mt-4 text-lg font-sulphur-point text-gray-300">
-            Reach out to us with your queries or feedback.
-        </p>
-        <a href="/contact" class="mt-6 inline-block bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-sulphur-point hover:bg-purple-700 transition">
-            Contact Us
-        </a>
-    </section>
-
-    <section id="imprint" class="text-center py-12 bg-gray-900">
-        <h2 class="text-5xl font-staatliches text-purple-500">Imprint</h2>
-        <p class="mt-4 text-lg font-sulphur-point text-gray-300">
-            Explore all the legal details and company information here.
-        </p>
-        <a href="/imprint" class="mt-6 inline-block bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-sulphur-point hover:bg-purple-700 transition">
-            View Imprint
-        </a>
-    </section>
-</main>
-
-<!-- Footer Section -->
-<footer class="bg-black py-8 text-center text-gray-400">
-    <p>&copy; 2025 Zipack. All rights reserved.</p>
-    <div class="mt-4 flex justify-center space-x-6">
-        <a href="/download" class="hover:text-purple-500">Download</a>
-        <a href="/contact" class="hover:text-purple-500">Contact</a>
-        <a href="/support" class="hover:text-purple-500">Support</a>
-        <a href="/team" class="hover:text-purple-500">Team</a>
-        <a href="/donate" class="hover:text-[#802BB1]">
-            Donate
-        </a>
-        <a href="/imprint" class="hover:text-purple-500">Imprint</a>
-
-    </div>
-</footer>
-
-</body>
-</html>
-
+</section>

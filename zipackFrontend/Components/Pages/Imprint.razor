@@ -1,58 +1,112 @@
-﻿@page "/Imprint"
+﻿@page "/imprint"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Imprint> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
+
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Imprint page initialized");
+    }
+
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+<section class="bg-black text-white">
+
+    <PageTitle>Imprint | zipack.net</PageTitle>
+
+    @if (_assets != null)
+    {
+        <div class="bg-black text-white">
+
+            <div class="relative w-full min-h-screen bg-cover bg-center"
+                 style="background-image: url('./assets/images/zipacklogo_.png');">
+
+                <div class="absolute w-full h-full bg-black z-0"></div>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<body class="bg-black text-white">
+                <div
+                    class="absolute w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] h-auto top-[10%] left-[50%] transform -translate-x-[50%] bg-white rounded-lg z-1 p-6">
 
-<PageTitle>Imprint | zipack.net</PageTitle>
 
-<div class="relative w-full min-h-screen bg-cover bg-center" style="background-image: url('./assets/images/zipacklogo_.png');">
-   
-    <div class="absolute w-full h-full bg-black z-0"></div>
+                    <span
+                        class="block text-center text-black text-[32px] sm:text-[48px] font-staatliches leading-[1.2] tracking-[2px] mb-4">
+                        Imprint
+                    </span>
 
-   
-    <div class="absolute w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] h-auto top-[10%] left-[50%] transform -translate-x-[50%] bg-white rounded-lg z-1 p-6">
 
-       
-        <span class="block text-center text-black text-[32px] sm:text-[48px] font-staatliches leading-[1.2] tracking-[2px] mb-4">
-            Imprint
-        </span>
-
-      
-        <div class="text-black text-[16px] sm:text-[18px] leading-[1.6] tracking-[1px]">
-            Information according to § 5 TMG:<br/>
-            <br/>
-            <strong>Operator of the website:</strong><br/>
-            Timo Graf<br/>
-            Brennerstraße 5<br/>
-            70839 Gerlingen<br/>
-            <br/>
-            <strong>Contact:</strong><br/>
-            Email: <a href="mailto:webmaster@zipack.net" class="text-purple-600 hover:text-purple-500 transition-colors">webmaster@zipack.net</a><br/>
-            <br/>
-            <strong>Disclaimer:</strong><br/>
-            The content on this website has been created with the utmost care. However, no liability is accepted for the accuracy, completeness, or timeliness of the content.<br/>
-            In addition, by using the "Zipack" program, you acknowledge and agree that we do not accept any liability for any direct, indirect, incidental, special, or consequential damages that may result from the use of the program, including but not limited to data loss, system failures, or any other types of losses or damages. Users are solely responsible for their actions and the use of the program. We recommend that users take necessary precautions and back up their data regularly.<br/>
-            <br/>
-            <strong>Privacy Policy:</strong><br/>
-            We do not store personal data on this website. Personal data is only stored involuntarily if you contact us via the provided email address. In this case, we store the data you provide (e.g., your name and email address) to respond to your inquiry. No further storage or processing of your data takes place.<br/>
-            <br/>
-            <strong>Use of Cookies and Tracking Tools:</strong><br/>
-            No cookies or tracking tools are used to analyze your behavior on this website. Your data is not shared with third parties.<br/>
-            <br/>
-            <strong>Copyright:</strong><br/>
-            All content on this website, including texts, images, and graphics, is protected by copyright. Unless otherwise stated, the copyright is held by Timo Graf. Use of the content is only permitted with the express permission of the copyright holder.<br/>
-            <br/>
-            <strong>Note on External Links:</strong><br/>
-            This website contains links to external websites. We have no influence on the content of these linked sites and accept no liability for the content of external links. The responsibility for the content of the linked sites lies solely with the respective operators.<br/>
-            <br/>
-            <strong>Final Provisions:</strong><br/>
-            Should any provision of this imprint be invalid, the validity of the remaining provisions shall remain unaffected.
+                    <div class="text-black text-[16px] sm:text-[18px] leading-[1.6] tracking-[1px]">
+                        @((MarkupString)GetAsset("Pages.Imprint.text"))
+                    </div>
+                </div>
+            </div>
 
         </div>
-    </div>
-</div>
+    }
 
-</body>
-</html>
+</section>

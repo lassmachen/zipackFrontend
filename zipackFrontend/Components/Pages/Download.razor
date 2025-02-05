@@ -1,47 +1,129 @@
 ﻿@page "/download"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Download> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
-<body class="bg-gradient-to-b from-black to-purple-700 text-white">
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
 
-<PageTitle>Coming Soon... | zipack.net</PageTitle>
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Download page initialized");
+    }
 
-<div>
-    <div class="flex flex-col items-center justify-center min-h-screen pt-16">
-        <div class="text-center max-w-md">
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
 
-            <h1 class="animate__animated animate__fadeInDown">
-                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-1 rounded-lg shadow-xl">
-                    <div class="bg-gray-900 p-6 rounded-lg">
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
 
-                        <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-4">
-                            Something Amazing is Coming Soon
-                        </h1>
-                        <p class="text-lg text-gray-300 mb-6">
-                            We're hard at work on the program. The alpha version will be launching in approximately
-                            <span class="font-bold"> 1 month</span>.
-                        </p>
-                        <!-- Notify Me Button -->
-                        <button
-                            class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-semibold rounded-md shadow-lg transition transform hover:scale-105">
-                            Notify Me
-                        </button>
-                    </div>
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+<section class="bg-gradient-to-b from-black to-purple-700 text-white">
+
+    <PageTitle>Coming Soon... | zipack.net</PageTitle>
+    
+    @if (_assets != null)
+    {
+
+        <div>
+            <div class="flex flex-col items-center justify-center min-h-screen pt-16">
+                <div class="text-center max-w-md">
+
+                    <h1 class="animate__animated animate__fadeInDown">
+                        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-1 rounded-lg shadow-xl">
+                            <div class="bg-gray-900 p-6 rounded-lg">
+
+                                <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-4">
+                                    Something Amazing is Coming Soon
+                                </h1>
+                                <p class="text-lg text-gray-300 mb-6">
+                                    We're hard at work on the program. The alpha version will be launching in approximately
+                                    <span class="font-bold"> 1 month</span>.
+                                </p>
+                                <!-- Notify Me Button -->
+                                <button
+                                    class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-semibold rounded-md shadow-lg transition transform hover:scale-105">
+                                    Notify Me
+                                </button>
+                            </div>
+                        </div>
+                    </h1>
                 </div>
-            </h1>
+
+                <!-- Footer Section -->
+                <footer class="py-8 text-center text-gray-400 mt-12 w-full">
+                    <p>&copy; 2025 Zipack. All rights reserved.</p>
+                    <div class="mt-4 flex justify-center space-x-6">
+                        <a href="/download" class="hover:text-[#802BB1]">Download</a>
+                        <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
+                        <a href="/support" class="hover:text-[#802BB1]">Support</a>
+                        <a href="/team" class="hover:text-[#802BB1]">Team</a>
+                        <a href="/donate" class="hover:text-[#802BB1]">Donate</a>
+                        <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
+                    </div>
+                </footer>
+            </div>
+
         </div>
 
-        <!-- Footer Section -->
-        <footer class="py-8 text-center text-gray-400 mt-12 w-full">
-            <p>&copy; 2025 Zipack. All rights reserved.</p>
-            <div class="mt-4 flex justify-center space-x-6">
-                <a href="/download" class="hover:text-[#802BB1]">Download</a>
-                <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
-                <a href="/support" class="hover:text-[#802BB1]">Support</a>
-                <a href="/team" class="hover:text-[#802BB1]">Team</a>
-                <a href="/donate" class="hover:text-[#802BB1]">Donate</a>
-                <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
-            </div>
-        </footer>
-    </div>
-    
-</div>
-</body>
+    }
+
+</section>

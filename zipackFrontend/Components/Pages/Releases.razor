@@ -1,7 +1,7 @@
-﻿@page "/support"
+﻿@page "/releases"
 @rendermode InteractiveServer
 @using zipackFrontend.Data
-@inject ILogger<Support> Logger
+@inject ILogger<Releases> Logger
 @inject LanguageService LanguageService
 @inject LanguageAPI LanguageAPI
 
@@ -15,7 +15,7 @@
         Logger.LogInformation("Getting language assets...");
         _assets = await LanguageAPI.GetLanguageAssets();
         Logger.LogInformation("Got {0}!", _assets.Count);
-        Logger.LogInformation("Imprint page initialized");
+        Logger.LogInformation("Releases page initialized");
     }
 
     private string GetAsset(string key)
@@ -76,44 +76,58 @@
 
 }
 
-<section class="bg-black text-white">
 
-<PageTitle>Support | zipack.net</PageTitle>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<PageTitle>Releases | zipack.net</PageTitle>
 
 @if (_assets != null)
 {
+    <div class="relative flex flex-col items-center">
 
-    <div class="relative w-full h-screen bg-cover bg-center" style="background-image: url('./assets/images/zipacklogo_.png');">
-
-        <div class="absolute w-full h-full bg-black opacity-80 z-0"></div>
-
-
-        <div class="absolute w-[90%] max-w-[800px] h-[500px] top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] bg-white rounded-3xl shadow-xl z-1 p-8">
-            <!-- Main Heading -->
-            <span class="block text-center text-[50px] lg:text-[80px] font-staatliches text-black leading-tight tracking-[6px] z-2">
-                @GetAsset("Shared.Support")
-            </span>
+        <span class="text-black font-staatliches text-4xl md:text-6xl lg:text-7xl leading-tight mb-2 w-[300px] text-center">
+            Releases
+        </span>
 
 
-            <div class="text-center text-[18px] lg:text-[20px] font-staatliches text-black mt-6 z-3 space-y-4">
-                <p class="text-gray-700">
-                    @((MarkupString)GetAsset("Pages.Support.text1")) <a href="mailto:support@zipack.net" class="text-purple-600 hover:text-purple-500 transition-colors">support@zipack.net</a>.
-                </p>
-                <p class="text-gray-700">
-                    @GetAsset("Pages.Support.text2")
-                </p>
-            </div>
+        <h1 class="animate__animated animate__zoomIn">
+            <a href="/download" class="link-container">
+
+                <div
+                    class="w-[300px] h-[300px] bg-black overflow-auto p-6 hover-grow rounded-xl flex flex-col items-center justify-center">
+
+                    <span class="block text-white font-staatliches text-3xl md:text-4xl lg:text-5xl text-center my-4">
+                        Alpha Version
+                    </span>
 
 
-            <div class="text-center mt-6">
-                <a href="mailto:support@zipack.net" class="inline-block py-3 px-8 bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 text-white text-[18px] font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
-                    @GetAsset("Pages.Support.ContactSupport")
-                </a>
-            </div>
-        </div>
+                    <span class="block text-white font-sulphur-point text-lg md:text-xl lg:text-2xl text-center">
+                        V1.0.0 - Untested
+                    </span>
+                </div>
+            </a>
+        </h1>
     </div>
 
 }
 
-</section>
+<style>
 
+    .hover-grow {
+        transition: transform 0.5s ease;
+    }
+
+    .hover-grow:hover {
+        transform: scale(1.1);
+    }
+
+
+    .link-container {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+</body>

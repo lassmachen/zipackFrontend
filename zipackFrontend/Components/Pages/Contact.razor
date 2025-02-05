@@ -1,36 +1,124 @@
 ﻿@page "/contact"
+@rendermode InteractiveServer
+@using zipackFrontend.Data
+@inject ILogger<Contact> Logger
+@inject LanguageService LanguageService
+@inject LanguageAPI LanguageAPI
 
-<body class="bg-black text-white">
+@code {
+    private List<LanguageAsset> _assets;
+    private bool _isEnglish;
 
-<PageTitle>Contact | zipack.net</PageTitle>
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageService.OnLanguageChanged += ReloadLang;
+        Logger.LogInformation("Getting language assets...");
+        _assets = await LanguageAPI.GetLanguageAssets();
+        Logger.LogInformation("Got {0}!", _assets.Count);
+        Logger.LogInformation("Contact page initialized");
+    }
 
-<!-- Hero Section -->
-<div class="relative w-full h-screen bg-cover bg-center" style="background-image: url('./assets/images/zipacklogo_.png');">
-    <div class="absolute w-full h-full bg-black opacity-80 z-0"></div>
+    private string GetAsset(string key)
+    {
+        Logger.LogInformation("Getting asset for {0}...", key);
+
+        if (_assets == null)
+        {
+            throw new InvalidOperationException("Language assets not loaded!");
+            return key;
+        }
+
+        var asset = _assets.Find(a => a.Key == key);
+
+        if (asset == null)
+        {
+            Logger.LogWarning("Asset not found: {0}", key);
+            return key;
+        }
+
+        Logger.LogInformation("Found asset: {0}", key);
+
+        return _isEnglish ? asset.EnEN : asset.DeDE;
+    }
+
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ReloadLang();
+        }
+    }
+
+    private void ReloadLang()
+    {
+        Logger.LogInformation("Reloading language...");
+        _ = UpdateLanguageState();
+        Logger.LogInformation("Reload completed!");
+    }
+
+    private async Task UpdateLanguageState()
+    {
+        Logger.LogInformation("Updating language state...");
+        string lang = await LanguageService.GetLanguageOrDefault();
+        Logger.LogInformation("Got language: " + lang);
+        _isEnglish = lang == "en";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        LanguageService.OnLanguageChanged -= ReloadLang;
+    }
+
+}
+
+<section class="bg-black text-white">
+
+    <PageTitle>Contact | zipack.net</PageTitle>
     
-    <div class="absolute w-[90%] max-w-[800px] h-[500px] top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] bg-white rounded-3xl shadow-xl z-1 p-8">
-        <span class="block text-center text-[50px] lg:text-[80px] font-staatliches text-black leading-tight tracking-[6px] z-2">
-            Contact
-        </span>
+    @if (_assets != null)
+    {
 
-        <!-- Contact Information -->
-        <div class="text-center text-[18px] lg:text-[20px] font-staatliches text-black mt-6 z-3 space-y-4">
-            <p class="text-gray-700">
-                If you have any questions or need assistance, feel free to reach out. <br/>
-                Email us at <a href="mailto:contact@zipack.net" class="text-purple-600 hover:text-purple-500 transition-colors">contact@zipack.net</a>
-            </p>
-            <p class="text-gray-700">
-                Please provide a brief description of your inquiry in the subject line. Our team will get back to you shortly.
-            </p>
+        <!-- Hero Section -->
+        <div class="relative w-full h-screen bg-cover bg-center"
+             style="background-image: url('./assets/images/zipacklogo_.png');">
+            <div class="absolute w-full h-full bg-black opacity-80 z-0"></div>
 
-            <!-- Contact Us Button -->
-            <div class="text-center mt-6">
-                <a href="mailto:contact@zipack.net" class="inline-block py-3 px-8 bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 text-white text-[18px] font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
-                    Contact Us
-                </a>
+            <div
+                class="absolute w-[90%] max-w-[800px] h-[500px] top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] bg-white rounded-3xl shadow-xl z-1 p-8">
+                <span
+                    class="block text-center text-[50px] lg:text-[80px] font-staatliches text-black leading-tight tracking-[6px] z-2">
+                    Contact
+                </span>
+
+                <!-- Contact Information -->
+                <div class="text-center text-[18px] lg:text-[20px] font-staatliches text-black mt-6 z-3 space-y-4">
+                    <p class="text-gray-700">
+                        If you have any questions or need assistance, feel free to reach out. <br/>
+                        Email us at
+                        <a href="mailto:contact@zipack.net"
+                           class="text-purple-600 hover:text-purple-500 transition-colors">contact@zipack.net</a>
+                    </p>
+                    <p class="text-gray-700">
+                        Please provide a brief description of your inquiry in the subject line. Our team will get back to
+                        you shortly.
+                    </p>
+
+                    <!-- Contact Us Button -->
+                    <div class="text-center mt-6">
+                        <a href="mailto:contact@zipack.net"
+                           class="inline-block py-3 px-8 bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 text-white text-[18px] font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-</body>
+    }
+    
+</section>
