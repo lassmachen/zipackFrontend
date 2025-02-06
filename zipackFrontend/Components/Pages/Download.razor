@@ -79,10 +79,9 @@
 <section class="bg-gradient-to-b from-black to-purple-700 text-white">
 
     <PageTitle>Coming Soon... | zipack.net</PageTitle>
-    
+
     @if (_assets != null)
     {
-
         <div>
             <div class="flex flex-col items-center justify-center min-h-screen pt-16">
                 <div class="text-center max-w-md">
@@ -95,7 +94,8 @@
                                     Something Amazing is Coming Soon
                                 </h1>
                                 <p class="text-lg text-gray-300 mb-6">
-                                    We're hard at work on the program. The alpha version will be launching in approximately
+                                    We're hard at work on the program. The alpha version will be launching in
+                                    approximately
                                     <span class="font-bold"> 1 month</span>.
                                 </p>
                                 <!-- Notify Me Button -->
@@ -107,25 +107,24 @@
                         </div>
                     </h1>
                 </div>
-
-                <!-- Footer Section -->
-                <footer class="bg-black py-8 text-center text-gray-400">
-                    <p>&copy; 2025 Zipack. @GetAsset("Shared.RightsReserved")</p>
-                    <div class="mt-4 flex justify-center space-x-6">
-                        <a href="/download" class="hover:text-[#802BB1]">Download</a>
-                        <a href="/contact" class="hover:text-[#802BB1]">@GetAsset("Shared.Contact")</a>
-                        <a href="/support" class="hover:text-[#802BB1]">@GetAsset("Shared.Support")</a>
-                        <a href="/team" class="hover:text-[#802BB1]">Team</a>
-                        <a href="/donate" class="hover:text-[#802BB1]">
-                            Donate
-                        </a>
-                        <a href="/imprint" class="hover:text-[#802BB1]">@GetAsset("Shared.Imprint")</a>
-                    </div>
-                </footer>
             </div>
+            
+            <!-- Footer Section -->
+            <footer class="bg-black py-8 text-center text-gray-400">
+                <p>&copy; 2025 Zipack. @GetAsset("Shared.RightsReserved")</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="/download" class="hover:text-[#802BB1]">Download</a>
+                    <a href="/contact" class="hover:text-[#802BB1]">@GetAsset("Shared.Contact")</a>
+                    <a href="/support" class="hover:text-[#802BB1]">@GetAsset("Shared.Support")</a>
+                    <a href="/team" class="hover:text-[#802BB1]">Team</a>
+                    <a href="/donate" class="hover:text-[#802BB1]">
+                        Donate
+                    </a>
+                    <a href="/imprint" class="hover:text-[#802BB1]">@GetAsset("Shared.Imprint")</a>
+                </div>
+            </footer>
 
         </div>
-
     }
 
 </section>
