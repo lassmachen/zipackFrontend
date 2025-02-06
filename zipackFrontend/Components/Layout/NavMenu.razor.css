@@ -181,6 +181,6 @@ html, body {
     right: -0px; /* Positionierung des Punktes */
     width: 10px; /* Größe des Punktes */
     height: 10px; /* Größe des Punktes */
-    background-color: red; /* Farbe des Punktes */
+    background-color: deeppink; /* Farbe des Punktes */
     border-radius: 50%;
 }
