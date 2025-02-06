@@ -88,8 +88,8 @@
         <section id="vanta-bg" class="py-16 px-4 pt-32">
             <h1 class="animate__animated bounce">
                 <div class="max-w-7xl mx-auto text-center">
-                    <h2 class="text-4xl font-bold text-white mb-4">Breaking News of the Day</h2>
-                    <p class="text-gray-300 text-lg mb-8">Stay updated with the latest headlines from around the world.</p>
+                    <h2 class="text-4xl font-bold text-white mb-4">@GetAsset("Pages.News.breakingnews")</h2>
+                    <p class="text-gray-300 text-lg mb-8">@GetAsset("Pages.News.stayupdated ")</p>
                 </div>
             </h1>
         </section>
@@ -166,14 +166,16 @@
 
         <!-- Footer Section -->
         <footer class="bg-black py-8 text-center text-gray-400">
-            <p>&copy; 2025 Zipack. All rights reserved.</p>
+            <p>&copy; 2025 Zipack. @GetAsset("Shared.RightsReserved")</p>
             <div class="mt-4 flex justify-center space-x-6">
                 <a href="/download" class="hover:text-[#802BB1]">Download</a>
-                <a href="/contact" class="hover:text-[#802BB1]">Contact</a>
-                <a href="/support" class="hover:text-[#802BB1]">Support</a>
+                <a href="/contact" class="hover:text-[#802BB1]">@GetAsset("Shared.Contact")</a>
+                <a href="/support" class="hover:text-[#802BB1]">@GetAsset("Shared.Support")</a>
                 <a href="/team" class="hover:text-[#802BB1]">Team</a>
-                <a href="/donate" class="hover:text-[#802BB1]">Donate</a>
-                <a href="/imprint" class="hover:text-[#802BB1]">Imprint</a>
+                <a href="/donate" class="hover:text-[#802BB1]">
+                    Donate
+                </a>
+                <a href="/imprint" class="hover:text-[#802BB1]">@GetAsset("Shared.Imprint")</a>
             </div>
         </footer>
 
