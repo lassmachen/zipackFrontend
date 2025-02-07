@@ -85,24 +85,28 @@
         <div>
             <div class="flex flex-col items-center justify-center min-h-screen pt-16">
                 <div class="text-center max-w-md">
-
                     <h1 class="animate__animated animate__fadeInDown">
                         <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-1 rounded-lg shadow-xl">
                             <div class="bg-gray-900 p-6 rounded-lg">
-
                                 <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-4">
-                                    Something Amazing is Coming Soon
+                                    @GetAsset("Pages.Download.Something")
                                 </h1>
                                 <p class="text-lg text-gray-300 mb-6">
-                                    We're hard at work on the program. The alpha version will be launching in
-                                    approximately
-                                    <span class="font-bold"> 1 month</span>.
+                                    @GetAsset("Pages.Download.Were") <br/>
+                                    <span class="font-bold">@GetAsset("Pages.Download.1month") </span>.
                                 </p>
-                                <!-- Notify Me Button -->
-                                <button
-                                    class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-semibold rounded-md shadow-lg transition transform hover:scale-105">
-                                    Notify Me
-                                </button>
+                                <!-- Notify Me Form -->
+                                <form @onsubmit="HandleNotifyMe" class="flex flex-col items-center space-y-4">
+                                    <input type="email" @bind="email" placeholder="Enter your email" required 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-600" />
+                                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-semibold rounded-md shadow-lg transition transform hover:scale-105">
+                                        @GetAsset("Pages.Download.notify")
+                                    </button>
+                                </form>
+                                @if (!string.IsNullOrEmpty(notificationMessage))
+                                {
+                                    <p class="text-green-400 mt-4">@notificationMessage</p>
+                                }
                             </div>
                         </div>
                     </h1>
@@ -128,3 +132,26 @@
     }
 
 </section>
+
+@code {
+    private string email;
+    private string notificationMessage;
+
+    private async Task HandleNotifyMe()
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            notificationMessage = "Please enter a valid email address.";
+            return;
+        }
+
+        Logger.LogInformation("Notify Me request received for email: {0}", email);
+
+        // Simulate saving email or sending a notification
+        await Task.Delay(500); // Simulated async operation
+
+        notificationMessage = @GetAsset("Pages.Download.thank") + email;
+        email = string.Empty; // Clear input field
+        StateHasChanged();
+    }
+}
