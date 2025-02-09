@@ -41,10 +41,6 @@
         return _isEnglish ? asset.EnEN : asset.DeDE;
     }
 
-}
-
-@code {
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -73,7 +69,6 @@
     {
         LanguageService.OnLanguageChanged -= ReloadLang;
     }
-
 }
 
 <section class="bg-gradient-to-b from-black to-purple-700 text-white">
@@ -93,20 +88,8 @@
                                 </h1>
                                 <p class="text-lg text-gray-300 mb-6">
                                     @GetAsset("Pages.Download.Were") <br/>
-                                    <span class="font-bold">@GetAsset("Pages.Download.1month") </span>.
+                                    <span class="font-bold">@GetAsset("Pages.Download.1month")</span>.
                                 </p>
-                                <!-- Notify Me Form -->
-                                <form @onsubmit="HandleNotifyMe" class="flex flex-col items-center space-y-4">
-                                    <input type="email" @bind="email" placeholder="Enter your email" required 
-                                           class="w-full px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-600" />
-                                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-semibold rounded-md shadow-lg transition transform hover:scale-105">
-                                        @GetAsset("Pages.Download.notify")
-                                    </button>
-                                </form>
-                                @if (!string.IsNullOrEmpty(notificationMessage))
-                                {
-                                    <p class="text-green-400 mt-4">@notificationMessage</p>
-                                }
                             </div>
                         </div>
                     </h1>
@@ -121,37 +104,10 @@
                     <a href="/contact" class="hover:text-[#802BB1]">@GetAsset("Shared.Contact")</a>
                     <a href="/support" class="hover:text-[#802BB1]">@GetAsset("Shared.Support")</a>
                     <a href="/team" class="hover:text-[#802BB1]">Team</a>
-                    <a href="/donate" class="hover:text-[#802BB1]">
-                        Donate
-                    </a>
+                    <a href="/donate" class="hover:text-[#802BB1]">Donate</a>
                     <a href="/imprint" class="hover:text-[#802BB1]">@GetAsset("Shared.Imprint")</a>
                 </div>
             </footer>
-
         </div>
     }
-
 </section>
-
-@code {
-    private string email;
-    private string notificationMessage;
-
-    private async Task HandleNotifyMe()
-    {
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            notificationMessage = "Please enter a valid email address.";
-            return;
-        }
-
-        Logger.LogInformation("Notify Me request received for email: {0}", email);
-
-        // Simulate saving email or sending a notification
-        await Task.Delay(500); // Simulated async operation
-
-        notificationMessage = @GetAsset("Pages.Download.thank") + email;
-        email = string.Empty; // Clear input field
-        StateHasChanged();
-    }
-}
