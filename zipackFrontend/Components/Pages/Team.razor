@@ -4,17 +4,24 @@
 @inject ILogger<Team> Logger
 @inject LanguageService LanguageService
 @inject LanguageAPI LanguageAPI
+@inject TeamAPI TeamAPI
 
 @code {
     private List<LanguageAsset> _assets;
+    private List<TeamMember> _team;
     private bool _isEnglish;
 
     protected override async Task OnInitializedAsync()
     {
         LanguageService.OnLanguageChanged += ReloadLang;
-        Logger.LogInformation("Getting language assets...");
+        Logger.LogInformation("Getting language assets & team members...");
+        
         _assets = await LanguageAPI.GetLanguageAssets();
-        Logger.LogInformation("Got {0}!", _assets.Count);
+        _team = await TeamAPI.GetTeamMembers();
+        _team = _team.OrderBy(m => m.Sorting).ToList();
+        
+        Logger.LogInformation("Got {0} language assets!", _assets.Count);
+        Logger.LogInformation("Got {0} team members!", _team.Count);
         Logger.LogInformation("Team page initialized");
     }
 
@@ -98,71 +105,52 @@
             </header>
         </div>
 
-        <!-- Team Members Section -->
-        <h1 class="animate__animated animate__slideInUp">
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @if (_team != null)
+        {
+            <!-- Team Members Section -->
+            <h1 class="animate__animated animate__slideInUp">
+                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                <!-- Team Member 1 -->
-                <a href="https://einfachrobbe.de" class="button hvr-float">
-                    <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
-                        <div class="flex flex-col items-center space-y-4">
-                            <img
-                                src="/assets/images/pfpeinfachrobbe.png"
-                                alt="EinfachRobbe"
-                                class="w-28 h-28 rounded-full border-4 border-white object-cover"/>
-                            <div>
-                                <h2 class="text-lg font-bold text-center">EinfachRobbe</h2>
-                                <p class="text-sm text-gray-400 text-center">CEO <br/>Administration <br/>Developer <br/>Payrole</p>
+                    @foreach (TeamMember member in _team)
+                    {
+                        <a href="@member.Link" class="button hvr-float">
+                            <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
+                                <div class="flex flex-col items-center space-y-4">
+                                    <img
+                                        src="@TeamAPI.GetLinkFromUUID(member.PFP)"
+                                        alt="@member.Name"
+                                        class="w-28 h-28 rounded-full border-4 border-white object-cover"/>
+                                    <div>
+                                        <h2 class="text-lg font-bold text-center">@member.Name</h2>
+                                        @{
+                                            string _ranks = "";
+                                            member.Ranks.ForEach(rank => _ranks = _ranks + rank + " <br/>");
+                                        }
+                                        <p class="text-sm text-gray-400 text-center">@((MarkupString) _ranks)</p>
+                                        <p class="text-sm text-gray-400 text-center"></p>
+                                    </div>
+                                    <p class="mt-4 text-gray-300 text-center">
+                                        @(_isEnglish ? member.DescEN : member.DescDE)
+                                    </p>
+                                </div>
                             </div>
-                            <p class="mt-4 text-gray-300 text-center">
-                                @GetAsset("Pages.News.EinfachRobbe")
-                            </p>
-                        </div>
-                    </div>
-                </a>
+                        </a>
+                    }
 
-                <!-- Team Member 2 -->
-                <a href="#" class="button hvr-float">
-                    <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
-                        <div class="flex flex-col items-center space-y-4">
-                            <img
-                                src="/assets/images/pfpsupgraf.png"
-                                alt="SupGraf"
-                                class="w-28 h-28 rounded-full border-4 border-white object-cover"/>
-                            <div>
-                                <h2 class="text-lg font-bold text-center">SupGraf</h2>
-                                <p class="text-sm text-gray-400 text-center">Founder <br/>CEO <br/>Manager <br/>UI/UX Design</p>
-                            </div>
-                            <p class="mt-4 text-gray-300 text-center">
-                                @GetAsset("Pages.Team.SupGraf")
-                            </p>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Team Member 3 -->
-                <a href="#" class="button hvr-float">
-                    <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
-                        <div class="flex flex-col items-center space-y-4">
-                            <img
-                                src="/assets/images/Kayapfp.jpg"
-                                alt="Kaya"
-                                class="w-28 h-28 rounded-full border-4 border-white object-cover"/>
-                            <div>
-                                <h2 class="text-lg font-bold text-center">GäiBuka</h2>
-                                <p class="text-sm text-gray-400 text-center">PR <br/>FX Design <br/>Support</p>
-                            </div>
-                            <p class="mt-4 text-gray-300 text-center">
-                                @GetAsset("Pages.Team.GäiBuka")
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </section>
-        </h1>
+                </section>
+            </h1>
+            
+        }
+        else
+        {
+            <img src="assets/loadingspinner.gif" alt="Loading..." class="mx-auto"/>
+        }
     </div>
-
+    
 }
-
+else 
+{
+    <img src="assets/loadingspinner.gif" alt="Loading..." class="mx-auto"/>
+}
 </section>
 

@@ -14,6 +14,7 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<LanguageService>();
 builder.Services.AddScoped<LanguageAPI>();
+builder.Services.AddScoped<TeamAPI>();
 
 var app = builder.Build();
 
